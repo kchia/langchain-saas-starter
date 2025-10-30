@@ -1,0 +1,45 @@
+{
+  "screenshot_id": "card_variants",
+  "component_name": "Card Component Variants",
+  "variants": [
+    "default",
+    "with_footer",
+    "with_image"
+  ],
+  "expected_tokens": {
+    "colors": {
+      "background": "#FFFFFF",
+      "border": "#E2E8F0",
+      "title": "#1E293B",
+      "description": "#64748B",
+      "footer_border": "#F1F5F9"
+    },
+    "spacing": {
+      "padding": "24px",
+      "gap": "8px",
+      "footer_padding": "16px 24px"
+    },
+    "typography": {
+      "title_size": "18px",
+      "title_weight": "600",
+      "description_size": "14px",
+      "footer_size": "13px"
+    },
+    "border": {
+      "radius": "8px",
+      "width": "1px"
+    },
+    "dimensions": {
+      "width": "320px"
+    }
+  },
+  "expected_pattern_id": "card",
+  "expected_code_properties": {
+    "has_header": true,
+    "has_footer": true,
+    "has_image_support": true,
+    "has_accessibility": true,
+    "compiles": true
+  },
+  "notes": "Multi-variant showcase: Default card, Card with footer, Card with image header"
+}

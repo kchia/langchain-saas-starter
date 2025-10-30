@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Card Component Variants</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    }
+
+    .card {
+      background-color: white;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      padding: 24px;
+      width: 320px;
+    }
+
+    .card-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #1E293B;
+      margin-bottom: 8px;
+    }
+
+    .card-description {
+      font-size: 14px;
+      color: #64748B;
+      margin-bottom: 16px;
+    }
+
+    .card-content {
+      font-size: 14px;
+      color: #334155;
+      line-height: 1.6;
+    }
+
+    .card-footer {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #E2E8F0;
+      font-size: 14px;
+      color: #64748B;
+    }
+
+    .card-image {
+      width: 100%;
+      height: 160px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 6px;
+      margin-bottom: 16px;
+    }
+
+    .label {
+      display: block;
+      text-align: center;
+      margin-top: 16px;
+      font-size: 13px;
+      color: #64748B;
+    }
+  </style>
+</head>
+<body class="p-12 bg-white">
+  <h1 class="text-4xl font-bold mb-12" style="color: #1E293B;">Card Component Variants</h1>
+
+  <!-- Card Variants -->
+  <section class="mb-12">
+    <div class="flex gap-8 flex-wrap">
+      <!-- Default Card -->
+      <div>
+        <div class="card">
+          <h3 class="card-title">Card Title</h3>
+          <p class="card-description">Card description goes here</p>
+          <p class="card-content">
+            This is the default card variant with standard styling.
+            It includes a title, description, and content area.
+          </p>
+        </div>
+        <span class="label">Default</span>
+      </div>
+
+      <!-- Card with Footer -->
+      <div>
+        <div class="card">
+          <h3 class="card-title">Product Card</h3>
+          <p class="card-description">Premium subscription</p>
+          <p class="card-content">
+            Access to all features and premium support.
+          </p>
+          <div class="card-footer">
+            <strong style="color: #1E293B; font-size: 18px;">$99/month</strong>
+          </div>
+        </div>
+        <span class="label">With Footer</span>
+      </div>
+
+      <!-- Card with Image -->
+      <div>
+        <div class="card">
+          <div class="card-image"></div>
+          <h3 class="card-title">Image Card</h3>
+          <p class="card-content">
+            Card with header image and content below.
+          </p>
+        </div>
+        <span class="label">With Image</span>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Switch Component Variants</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    }
+
+    .switch-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .switch {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      background-color: #E5E7EB;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .switch-input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .switch-slider {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 20px;
+      height: 20px;
+      background-color: white;
+      border-radius: 50%;
+      transition: transform 0.2s;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .switch-input:checked + .switch {
+      background-color: #3B82F6;
+    }
+
+    .switch-input:checked + .switch .switch-slider {
+      transform: translateX(20px);
+    }
+
+    .switch-input:disabled + .switch {
+      background-color: #F3F4F6;
+      cursor: not-allowed;
+    }
+
+    .switch-input:disabled + .switch .switch-slider {
+      background-color: #E5E7EB;
+    }
+
+    .switch-label {
+      font-size: 14px;
+      color: #1E293B;
+    }
+
+    .label {
+      display: block;
+      text-align: center;
+      margin-top: 12px;
+      font-size: 13px;
+      color: #64748B;
+    }
+  </style>
+</head>
+<body class="p-12 bg-white">
+  <h1 class="text-4xl font-bold mb-12" style="color: #1E293B;">Switch Component Variants</h1>
+
+  <!-- Switch Variants -->
+  <section class="mb-12">
+    <div class="flex gap-12 flex-wrap">
+      <div>
+        <div class="switch-wrapper">
+          <input type="checkbox" class="switch-input" id="sw1">
+          <label for="sw1" class="switch">
+            <span class="switch-slider"></span>
+          </label>
+          <span class="switch-label">Enable notifications</span>
+        </div>
+        <span class="label">Off</span>
+      </div>
+      <div>
+        <div class="switch-wrapper">
+          <input type="checkbox" class="switch-input" id="sw2" checked>
+          <label for="sw2" class="switch">
+            <span class="switch-slider"></span>
+          </label>
+          <span class="switch-label">Enable notifications</span>
+        </div>
+        <span class="label">On</span>
+      </div>
+      <div>
+        <div class="switch-wrapper">
+          <input type="checkbox" class="switch-input" id="sw3" disabled>
+          <label for="sw3" class="switch">
+            <span class="switch-slider"></span>
+          </label>
+          <span class="switch-label">Enable notifications</span>
+        </div>
+        <span class="label">Disabled Off</span>
+      </div>
+      <div>
+        <div class="switch-wrapper">
+          <input type="checkbox" class="switch-input" id="sw4" checked disabled>
+          <label for="sw4" class="switch">
+            <span class="switch-slider"></span>
+          </label>
+          <span class="switch-label">Enable notifications</span>
+        </div>
+        <span class="label">Disabled On</span>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

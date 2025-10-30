@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Token Extraction - ComponentForge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+        .transition-all { transition: all 0.2s ease; }
+        .focus-ring:focus { outline: 2px solid #3B82F6; outline-offset: 2px; }
+        .hover-effect:hover { opacity: 0.9; transform: scale(0.995); }
+        .active-tab { border-bottom: 2px solid #3B82F6; color: #3B82F6; }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .loading-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        
+        .drag-active {
+            border-color: #3B82F6 !important;
+            background-color: #EFF6FF !important;
+        }
+        
+        .confidence-high { color: #10B981; }
+        .confidence-medium { color: #F59E0B; }
+        .confidence-low { color: #EF4444; }
+        
+        .skeleton {
+            background: linear-gradient(90deg, #F1F5F9 25%, #E2E8F0 50%, #F1F5F9 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-900">
+    <!-- Header -->
+    <header class="border-b border-gray-200 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold text-sm">CF</span>
+                    </div>
+                    <span class="font-semibold text-lg">ComponentForge</span>
+                </div>
+                <nav class="flex items-center gap-4">
+                    <button class="text-gray-600 hover:text-gray-900 transition-colors focus-ring px-3 py-2 rounded-md">
+                        Settings
+                    </button>
+                    <button class="text-gray-600 hover:text-gray-900 transition-colors focus-ring px-3 py-2 rounded-md">
+                        Profile
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Page Header -->
+        <div class="mb-8">
+            <button class="text-gray-600 hover:text-gray-900 mb-4 flex items-center gap-2 focus-ring px-2 py-1 rounded">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                Back to Home
+            </button>
+            <h1 class="text-2xl font-bold">Extract Design Tokens</h1>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="bg-white border border-gray-200 rounded-lg p-1 mb-6">
+            <div class="flex gap-1" role="tablist">
+                <button 
+                    id="screenshot-tab" 
+                    class="flex-1 px-4 py-2 rounded-md font-medium transition-all active-tab focus-ring"
+                    role="tab"
+                    aria-selected="true"
+                    aria-controls="screenshot-panel"
+                    onclick="switchTab('screenshot')"
+                >
+                    Screenshot Upload
+                </button>
+                <button 
+                    id="figma-tab" 
+                    class="flex-1 px-4 py-2 rounded-md font-medium text-gray-600 hover:text-gray-900 transition-all focus-ring"
+                    role="tab"
+                    aria-selected="false"
+                    aria-controls="figma-panel"
+                    onclick="switchTab('figma')"
+                >
+                    Figma Integration
+                </button>
+            </div>
+        </div>
+
+        <!-- Screenshot Tab Panel -->
+        <div id="screenshot-panel" role="tabpanel" aria-labelledby="screenshot-tab">
+            <!-- Upload Area -->
+            <div id="upload-area" class="mb-6">
+                <div 
+                    id="dropzone"
+                    class="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center transition-all cursor-pointer hover:border-gray-400"
+                    ondragover="handleDragOver(event)"
+                    ondragleave="handleDragLeave(event)"
+                    ondrop="handleDrop(event)"
+                    onclick="document.getElementById('file-input').click()"
+                >
+                    <svg class="w-12 h-12 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                    </svg>
+                    <p class="text-lg font-medium mb-2">📷 Drag & drop your screenshot</p>
+                    <p class="text-gray-600 mb-4">or click to browse</p>
+                    <p class="text-sm text-gray-500">
+                        Supported: PNG, JPG, JPEG<br>
+                        Max size: 10MB<br>
+                        Recommended: 2000px width max
+                    </p>
+                    <input type="file" id="file-input" class="hidden" accept="image/png,image/jpeg,image/jpg" onchange="handleFileSelect(event)">
+                </div>
+                <button class="mt-4 w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors focus-ring hover-effect font-medium">
+                    Upload Screenshot
+                </button>
+            </div>
+
+            <!-- File Selected State -->
+            <div id="file-selected" class="hidden mb-6 p-4 bg-gray-50 rounded-lg flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl">📄</span>
+                    <span class="font-medium">button-design.png (2.3 MB)</span>
+                </div>
+                <button onclick="removeFile()" class="text-red-500 hover:text-red-700 flex items-center gap-1 focus-ring px-2 py-1 rounded">
+                    <span>✕</span>
+                    <span>Remove</span>
+                </button>
+            </div>
+
+            <!-- Extracting State -->
+            <div id="extracting-state" class="hidden">
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                        <span class="font-medium">Extracting tokens... (7s elapsed)</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
+                        <div class="bg-blue-500 h-2 rounded-full transition-all" style="width: 60%"></div>
+                    </div>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex items-center gap-2">
+                            <span class="text-green-500">✅</span>
+                            <span>Image validated & normalized</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                            <span>GPT-4V analyzing colors & typography</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-gray-400">⏳</span>
+                            <span class="text-gray-600">Detecting spacing patterns (4px/8px)</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-4">Target: Complete in &lt;10 seconds</p>
+                </div>
+            </div>
+
+            <!-- Extracted Tokens -->
+            <div id="extracted-tokens" class="hidden space-y-6">
+                <!-- Colors Section -->
+                <div class="bg-white border border-gray-200 rounded-lg p-6">
+                    <h3 class="font-semibold mb-4">COLORS (4 detected)</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded border border-gray-300" style="background-color: #3B82F6"></div>
+                                <span class="font-medium">Primary</span>
+                                <code class="px-2 py-1 bg-gray-100 rounded text-sm">#3B82F6</code>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button class="text-blue-500 hover:text-blue-700 text-sm focus-ring px-2 py-1 rounded">Edit</button>
+                                <span class="text-sm">0.95</span>
+                                <span class="confidence-high">✅</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded border border-gray-300" style="background-color: #FFFFFF"></div>
+                                <span class="font-medium">Background</span>
+                                <code class="px-2 py-1 bg-gray-100 rounded text-sm">#FFFFFF</code>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button class="text-blue-500 hover:text-blue-700 text-sm focus-ring px-2 py-1 rounded">Edit</button>
+                                <span class="text-sm">0.88</span>
+                                <span class="confidence-medium">⚠️</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded border border-gray-300" style="background-color: #09090B"></div>
+                                <span class="font-medium">Foreground</span>
+                                <code class="px-2 py-1 bg-gray-100 rounded text-sm">#09090B</code>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button class="text-blue-500 hover:text-blue-700 text-sm focus-ring px-2 py-1 rounded">Edit</button>
+                                <span class="text-sm">0.92</span>
+                                <span class="confidence-high">✅</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded border border-gray-300" style="background-color: #64748B"></div>
+                                <span class="font-medium">Secondary</span>
+                                <code class="px-2 py-1 bg-gray-100 rounded text-sm">#64748B</code>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button class="text-blue-500 hover:text-blue-700 text-sm focus-ring px-2 py-1 rounded">Edit</button>
+                                <span class="text-sm">0.79</span>
+                                <span class="confidence-medium">⚠️</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Typography Section -->
+                <div class="bg-white border border-gray-200 rounded-lg p-6">
+                    <h3 class="font-semibold mb-4">TYPOGRAPHY (3 properties)</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md">
+                            <div class="flex items-center gap-3">
+                                <span class="font-medium">Font Family:</span>
+                                <code class="px-2 py-1 bg-gray-100 rounded text-sm">Inter</code>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button class="text-blue-500 hover:text-blue-700 text-sm focus-ring px-2 py-1 rounded">Edit</button>
+                                <span class="text-sm">0.75</span>
+                                <span class="confidence-medium">⚠️</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md">
+                            <div class="flex items-center gap-3">
+                                <span class="font-medium">Font Size:</span>
+                                <code class="px-2 py-1 bg-gray-100 rounded text-sm">16px</code>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button class="text-blue-500 hover:text-blue-700 text-sm focus-ring px-2 py-1 rounded">Edit</button>
+                                <span class="text-sm">0.90</span>
+                                <span class="confidence-high">✅</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md">
+                            <div class="flex items-center gap-3">
+                                <span class="font-medium">Font Weight:</span>
+                                <code class="px-2 py-1 bg-gray-100 rounded text-sm">500</code>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button class="text-blue-500 hover:text-blue-700 text-sm focus-ring px-2 py-1 rounded">Edit</button>
+                                <span class="text-sm">0.85</span>
+                                <span class="confidence-high">✅</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Spacing Section -->
+                <div class="bg-white border border-gray-200 rounded-lg p-6">
+                    <h3 class="font-semibold mb-4">SPACING (2 detected)</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md">
+                            <div class="flex items-center gap-3">
+                                <span class="font-medium">Padding:</span>
+                                <code class="px-2 py-1 bg-gray-100 rounded text-sm">16px</code>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button class="text-blue-500 hover:text-blue-700 text-sm focus-ring px-2 py-1 rounded">Edit</button>
+                                <span class="text-sm">0.82</span>
+                                <span class="confidence-high">✅</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md">
+                            <div class="flex items-center gap-3">
+                                <span class="font-medium">Gap:</span>
+                                <code class="px-2 py-1 bg-gray-100 rounded text-sm">8px</code>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button class="text-blue-500 hover:text-blue-700 text-sm focus-ring px-2 py-1 rounded">Edit</button>
+                                <span class="text-sm">0.78</span>
+                                <span class="confidence-medium">⚠️</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Confidence Legend -->
+                <div class="bg-gray-50 rounded-lg p-4 text-sm">
+                    <p class="font-medium mb-2">ℹ️ Confidence:</p>
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2">
+                            <span class="confidence-high">✅</span>
+                            <span>≥0.9 (auto-accept)</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="confidence-medium">⚠️</span>
+                            <span>0.7-0.9 (review)</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="confidence-low">🔴</span>
+                            <span>&lt;0.7 (fallback to defaults)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex gap-3">
+                    <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors focus-ring font-medium">
+                        Export as JSON
+                    </button>
+                    <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors focus-ring font-medium">
+                        Export as CSS
+                    </button>
+                    <button class="flex-1 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors focus-ring hover-effect font-medium">
+                        Continue →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Figma Tab Panel -->
+        <div id="figma-panel" role="tabpanel" aria-labelledby="figma-tab" class="hidden">
+            <div class="bg-white border border-gray-200 rounded-lg p-6">
+                <h3 class="text-lg font-semibold mb-6 flex items-center gap-2">
+                    <span>🔗</span>
+                    Connect to Figma
+                </h3>
+                
+                <!-- Step 1 -->
+                <div class="mb-6">
+                    <label class="block text-sm font-medium mb-2">Step 1: Personal Access Token (PAT)</label>
+                    <div class="flex gap-2">
+                        <input 
+                            type="password" 
+                            placeholder="figd_••••••••••••••••••••"
+                            class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                        <button class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors focus-ring font-medium">
+                            Validate ✓
+                        </button>
+                    </div>
+                    <p class="text-sm text-green-600 mt-2">✅ Authenticated as: design@company.com</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="mb-6">
+                    <label class="block text-sm font-medium mb-2">Step 2: Figma File URL</label>
+                    <input 
+                        type="url" 
+                        placeholder="https://figma.com/file/abc123..."
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                    <div class="flex items-center gap-2 mt-2">
+                        <input type="checkbox" id="first-page" class="rounded focus:ring-2 focus:ring-blue-500">
+                        <label for="first-page" class="text-sm">Extract from first page only (faster)</label>
+                    </div>
+                </div>
+
+                <!-- Extract Button -->
+                <button class="w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors focus-ring hover-effect font-medium mb-6">
+                    Extract Tokens from Figma
+                </button>
+
+                <!-- Info -->
+                <div class="space-y-2 text-sm text-gray-600 border-t pt-4">
+                    <p>💡 Uses Figma Files & Styles API (v1)</p>
+                    <p>⚡ Results cached for 5 min (L0 cache)</p>
+                    <p>📊 Rate limit: 1,000 req/hr</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function switchTab(tab) {
+            const screenshotTab = document.getElementById('screenshot-tab');
+            const figmaTab = document.getElementById('figma-tab');
+            const screenshotPanel = document.getElementById('screenshot-panel');
+            const figmaPanel = document.getElementById('figma-panel');
+
+            if (tab === 'screenshot') {
+                screenshotTab.classList.add('active-tab');
+                screenshotTab.classList.remove('text-gray-600');
+                figmaTab.classList.remove('active-tab');
+                figmaTab.classList.add('text-gray-600');
+                screenshotPanel.classList.remove('hidden');
+                figmaPanel.classList.add('hidden');
+                screenshotTab.setAttribute('aria-selected', 'true');
+                figmaTab.setAttribute('aria-selected', 'false');
+            } else {
+                figmaTab.classList.add('active-tab');
+                figmaTab.classList.remove('text-gray-600');
+                screenshotTab.classList.remove('active-tab');
+                screenshotTab.classList.add('text-gray-600');
+                figmaPanel.classList.remove('hidden');
+                screenshotPanel.classList.add('hidden');
+                figmaTab.setAttribute('aria-selected', 'true');
+                screenshotTab.setAttribute('aria-selected', 'false');
+            }
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            document.getElementById('dropzone').classList.add('drag-active');
+        }
+
+        function handleDragLeave(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            document.getElementById('dropzone').classList.remove('drag-active');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            document.getElementById('dropzone').classList.remove('drag-active');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                showFileSelected();
+                simulateExtraction();
+            }
+        }
+
+        function handleFileSelect(e) {
+            if (e.target.files.length > 0) {
+                showFileSelected();
+                simulateExtraction();
+            }
+        }
+
+        function showFileSelected() {
+            document.getElementById('upload-area').classList.add('hidden');
+            document.getElementById('file-selected').classList.remove('hidden');
+        }
+
+        function removeFile() {
+            document.getElementById('file-selected').classList.add('hidden');
+            document.getElementById('upload-area').classList.remove('hidden');
+            document.getElementById('extracting-state').classList.add('hidden');
+            document.getElementById('extracted-tokens').classList.add('hidden');
+            document.getElementById('file-input').value = '';
+        }
+
+        function simulateExtraction() {
+            setTimeout(() => {
+                document.getElementById('extracting-state').classList.remove('hidden');
+                document.getElementById('extracted-tokens').classList.add('hidden');
+                
+                setTimeout(() => {
+                    document.getElementById('extracting-state').classList.add('hidden');
+                    document.getElementById('extracted-tokens').classList.remove('hidden');
+                }, 3000);
+            }, 500);
+        }
+    </script>
+</body>
+</html>

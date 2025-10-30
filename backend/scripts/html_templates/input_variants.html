@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Input Component Variants</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    }
+
+    .input {
+      width: 300px;
+      padding: 10px 14px;
+      border: 1px solid #D1D5DB;
+      border-radius: 6px;
+      font-size: 14px;
+      color: #1E293B;
+      transition: all 0.2s;
+    }
+
+    .input::placeholder {
+      color: #9CA3AF;
+    }
+
+    .input:focus {
+      outline: none;
+      border-color: #3B82F6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .input-error {
+      border-color: #EF4444;
+    }
+
+    .input:disabled {
+      background-color: #F3F4F6;
+      color: #9CA3AF;
+      cursor: not-allowed;
+    }
+
+    .input-with-icon {
+      padding-left: 38px;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9CA3AF;
+      font-size: 16px;
+    }
+
+    .label {
+      display: block;
+      text-align: center;
+      margin-top: 12px;
+      font-size: 13px;
+      color: #64748B;
+    }
+  </style>
+</head>
+<body class="p-12 bg-white">
+  <h1 class="text-4xl font-bold mb-12" style="color: #1E293B;">Input Component Variants</h1>
+
+  <!-- Input Variants -->
+  <section class="mb-12">
+    <div class="flex gap-8 flex-wrap">
+      <div>
+        <input type="text" class="input" placeholder="Enter your name">
+        <span class="label">Default</span>
+      </div>
+      <div>
+        <input type="text" class="input" placeholder="Enter your name" style="border-color: #3B82F6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);">
+        <span class="label">Focused</span>
+      </div>
+      <div>
+        <input type="text" class="input input-error" placeholder="Enter your name" value="Invalid input">
+        <span class="label">Error</span>
+      </div>
+      <div>
+        <input type="text" class="input" placeholder="Enter your name" disabled>
+        <span class="label">Disabled</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Input with Icon -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-6" style="color: #334155;">With Icon</h2>
+    <div class="input-wrapper">
+      <span class="input-icon">🔍</span>
+      <input type="text" class="input input-with-icon" placeholder="Search...">
+    </div>
+  </section>
+</body>
+</html>

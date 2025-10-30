@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Button Component Variants</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+      padding: 10px 20px;
+    }
+
+    .btn-primary {
+      background-color: #3B82F6;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #2563EB;
+    }
+
+    .btn-primary:disabled {
+      background-color: #93C5FD;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    .btn-secondary {
+      background-color: #64748B;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background-color: #475569;
+    }
+
+    .btn-secondary:disabled {
+      background-color: #CBD5E1;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    .btn-outline {
+      background-color: white;
+      color: #3B82F6;
+      border: 2px solid #3B82F6;
+    }
+
+    .btn-outline:hover {
+      background-color: #EFF6FF;
+    }
+
+    .btn-outline:disabled {
+      color: #93C5FD;
+      border-color: #93C5FD;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    .btn-sm {
+      padding: 6px 14px;
+      font-size: 12px;
+    }
+
+    .btn-lg {
+      padding: 14px 28px;
+      font-size: 16px;
+    }
+
+    .label {
+      display: block;
+      text-align: center;
+      margin-top: 12px;
+      font-size: 13px;
+      color: #64748B;
+    }
+  </style>
+</head>
+<body class="p-12 bg-white">
+  <h1 class="text-4xl font-bold mb-12" style="color: #1E293B;">Button Component Variants</h1>
+
+  <!-- Primary Buttons -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-6" style="color: #334155;">Primary Buttons</h2>
+    <div class="flex gap-8 items-start">
+      <div>
+        <button class="btn btn-primary">Button</button>
+        <span class="label">Default</span>
+      </div>
+      <div>
+        <button class="btn btn-primary" style="background-color: #2563EB;">Button</button>
+        <span class="label">Hover</span>
+      </div>
+      <div>
+        <button class="btn btn-primary" disabled>Button</button>
+        <span class="label">Disabled</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Secondary Buttons -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-6" style="color: #334155;">Secondary Buttons</h2>
+    <div class="flex gap-8 items-start">
+      <div>
+        <button class="btn btn-secondary">Button</button>
+        <span class="label">Default</span>
+      </div>
+      <div>
+        <button class="btn btn-secondary" style="background-color: #475569;">Button</button>
+        <span class="label">Hover</span>
+      </div>
+      <div>
+        <button class="btn btn-secondary" disabled>Button</button>
+        <span class="label">Disabled</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Outlined Buttons -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-6" style="color: #334155;">Outlined Buttons</h2>
+    <div class="flex gap-8 items-start">
+      <div>
+        <button class="btn btn-outline">Button</button>
+        <span class="label">Default</span>
+      </div>
+      <div>
+        <button class="btn btn-outline" style="background-color: #EFF6FF;">Button</button>
+        <span class="label">Hover</span>
+      </div>
+      <div>
+        <button class="btn btn-outline" disabled>Button</button>
+        <span class="label">Disabled</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Button Sizes -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-6" style="color: #334155;">Button Sizes</h2>
+    <div class="flex gap-8 items-end">
+      <div>
+        <button class="btn btn-primary btn-sm">Button</button>
+        <span class="label">Small</span>
+      </div>
+      <div>
+        <button class="btn btn-primary">Button</button>
+        <span class="label">Medium</span>
+      </div>
+      <div>
+        <button class="btn btn-primary btn-lg">Button</button>
+        <span class="label">Large</span>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

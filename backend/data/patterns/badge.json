@@ -1,0 +1,136 @@
+{
+  "id": "shadcn-badge",
+  "name": "Badge",
+  "category": "display",
+  "description": "A versatile badge component for status indicators, labels, and counts from shadcn/ui",
+  "framework": "react",
+  "library": "shadcn/ui",
+  "code": "import * as React from \"react\"\nimport { cva, type VariantProps } from \"class-variance-authority\"\n\nimport { cn } from \"@/lib/utils\"\n\nconst badgeVariants = cva(\n  \"inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2\",\n  {\n    variants: {\n      variant: {\n        default:\n          \"border-transparent bg-primary text-primary-foreground hover:bg-primary/80\",\n        secondary:\n          \"border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80\",\n        destructive:\n          \"border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80\",\n        outline: \"text-foreground\",\n      },\n    },\n    defaultVariants: {\n      variant: \"default\",\n    },\n  }\n)\n\nexport interface BadgeProps\n  extends React.HTMLAttributes<HTMLDivElement>,\n    VariantProps<typeof badgeVariants> {}\n\nfunction Badge({ className, variant, ...props }: BadgeProps) {\n  return (\n    <div className={cn(badgeVariants({ variant }), className)} {...props} />\n  )\n}\n\nexport { Badge, badgeVariants }",
+  "metadata": {
+    "variants": [
+      {
+        "name": "default",
+        "description": "Primary badge with solid background",
+        "use_case": "Default status or primary label"
+      },
+      {
+        "name": "secondary",
+        "description": "Secondary badge with muted styling",
+        "use_case": "Secondary information or less important status"
+      },
+      {
+        "name": "destructive",
+        "description": "Destructive/error badge with red styling",
+        "use_case": "Error states, warnings, critical alerts"
+      },
+      {
+        "name": "outline",
+        "description": "Badge with border, transparent background",
+        "use_case": "Neutral status, tags, categories"
+      }
+    ],
+    "props": [
+      {
+        "name": "variant",
+        "type": "string",
+        "optional": true,
+        "default": "default",
+        "description": "Visual style variant of the badge"
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "optional": true,
+        "description": "Additional CSS classes"
+      },
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "optional": false,
+        "description": "Badge content (text, icons, or count)"
+      }
+    ],
+    "styling": {
+      "shape": "rounded-full (fully rounded)",
+      "padding": "10px horizontal (2.5), 2px vertical (0.5)",
+      "fontSize": "0.75rem (12px)",
+      "fontWeight": "600 (semibold)",
+      "border": "1px solid (variant dependent)",
+      "display": "inline-flex",
+      "states": {
+        "default": "Primary background with hover effect",
+        "hover": "80% opacity on background",
+        "focus": "2px ring with offset"
+      }
+    },
+    "common_use_cases": [
+      {
+        "name": "Status Indicators",
+        "examples": ["Active", "Pending", "Completed", "Failed"]
+      },
+      {
+        "name": "Notification Counts",
+        "examples": ["3 new messages", "12", "99+"]
+      },
+      {
+        "name": "Tags and Labels",
+        "examples": ["React", "TypeScript", "New", "Beta"]
+      },
+      {
+        "name": "Category Markers",
+        "examples": ["Bug", "Feature", "Documentation"]
+      },
+      {
+        "name": "User Roles",
+        "examples": ["Admin", "Moderator", "User", "Guest"]
+      }
+    ],
+    "a11y": {
+      "features": [
+        "Semantic HTML div element",
+        "Sufficient color contrast for all variants",
+        "Focus ring for keyboard navigation",
+        "Screen reader compatible",
+        "Supports ARIA attributes"
+      ],
+      "recommendations": [
+        "Use aria-label for icon-only badges",
+        "Consider role=\"status\" for dynamic status badges",
+        "Ensure text is readable at small size",
+        "Don't rely on color alone for meaning",
+        "Use visually hidden text for counts (e.g., \"3 unread messages\")"
+      ]
+    },
+    "dependencies": [
+      "class-variance-authority",
+      "clsx",
+      "tailwind-merge"
+    ],
+    "usage_examples": [
+      {
+        "title": "Default Badge",
+        "code": "<Badge>Default</Badge>"
+      },
+      {
+        "title": "Status Badges",
+        "code": "<div className=\"flex gap-2\">\n  <Badge>Active</Badge>\n  <Badge variant=\"secondary\">Pending</Badge>\n  <Badge variant=\"destructive\">Failed</Badge>\n  <Badge variant=\"outline\">Draft</Badge>\n</div>"
+      },
+      {
+        "title": "Notification Count",
+        "code": "<div className=\"relative\">\n  <Button variant=\"outline\" size=\"icon\">\n    <Bell className=\"h-4 w-4\" />\n  </Button>\n  <Badge className=\"absolute -top-2 -right-2\">3</Badge>\n</div>"
+      },
+      {
+        "title": "Tags with Remove",
+        "code": "<Badge variant=\"secondary\" className=\"gap-1\">\n  React\n  <button className=\"ml-1 hover:text-destructive\">\n    <X className=\"h-3 w-3\" />\n  </button>\n</Badge>"
+      },
+      {
+        "title": "Custom Colored Badge",
+        "code": "<Badge className=\"bg-green-500 hover:bg-green-600 text-white border-green-500\">\n  Success\n</Badge>"
+      },
+      {
+        "title": "Badge with Icon",
+        "code": "<Badge variant=\"outline\" className=\"gap-1\">\n  <Check className=\"h-3 w-3\" />\n  Verified\n</Badge>"
+      }
+    ]
+  }
+}

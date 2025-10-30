@@ -1,0 +1,112 @@
+{
+  "component_name": "Input",
+  "component_type": "input",
+  "tokens": {
+    "colors": {
+      "border": "#D1D5DB",
+      "borderFocus": "#3B82F6",
+      "borderError": "#EF4444",
+      "background": "#FFFFFF",
+      "text": "#111827",
+      "placeholder": "#9CA3AF",
+      "label": "#374151",
+      "error": "#DC2626",
+      "hint": "#6B7280"
+    },
+    "typography": {
+      "inputSize": "14px",
+      "labelSize": "14px",
+      "labelWeight": "500",
+      "hintSize": "12px"
+    },
+    "spacing": {
+      "padding": "8px 12px",
+      "gap": "6px"
+    },
+    "borders": {
+      "radius": "6px",
+      "width": "1px"
+    }
+  },
+  "requirements": {
+    "props": [
+      {
+        "name": "type",
+        "type": "'text' | 'email' | 'password' | 'number' | 'tel' | 'url'",
+        "description": "Input type"
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "description": "Input label text"
+      },
+      {
+        "name": "placeholder",
+        "type": "string",
+        "description": "Placeholder text"
+      },
+      {
+        "name": "error",
+        "type": "string",
+        "description": "Error message to display"
+      },
+      {
+        "name": "hint",
+        "type": "string",
+        "description": "Helper text to display"
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "description": "Whether input is required"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "description": "Whether input is disabled"
+      }
+    ],
+    "events": [
+      {
+        "name": "onChange",
+        "type": "(event: React.ChangeEvent<HTMLInputElement>) => void",
+        "description": "Change handler"
+      },
+      {
+        "name": "onBlur",
+        "type": "(event: React.FocusEvent<HTMLInputElement>) => void",
+        "description": "Blur handler"
+      }
+    ],
+    "states": [
+      {
+        "name": "value",
+        "type": "string",
+        "description": "Current input value"
+      },
+      {
+        "name": "isFocused",
+        "type": "boolean",
+        "description": "Focus state"
+      }
+    ],
+    "accessibility": [
+      {
+        "name": "aria-label",
+        "description": "Accessible label when label prop is not provided"
+      },
+      {
+        "name": "aria-invalid",
+        "description": "Indicates validation error state"
+      },
+      {
+        "name": "aria-describedby",
+        "description": "References error or hint text"
+      },
+      {
+        "name": "aria-required",
+        "description": "Indicates required field"
+      }
+    ]
+  }
+}

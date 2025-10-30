@@ -1,0 +1,97 @@
+{
+  "component_name": "Alert",
+  "component_type": "alert",
+  "tokens": {
+    "colors": {
+      "info": {
+        "background": "#EFF6FF",
+        "border": "#3B82F6",
+        "text": "#1E40AF",
+        "icon": "#3B82F6"
+      },
+      "success": {
+        "background": "#F0FDF4",
+        "border": "#10B981",
+        "text": "#166534",
+        "icon": "#10B981"
+      },
+      "warning": {
+        "background": "#FFFBEB",
+        "border": "#F59E0B",
+        "text": "#92400E",
+        "icon": "#F59E0B"
+      },
+      "error": {
+        "background": "#FEF2F2",
+        "border": "#EF4444",
+        "text": "#991B1B",
+        "icon": "#EF4444"
+      }
+    },
+    "typography": {
+      "titleSize": "14px",
+      "titleWeight": "600",
+      "bodySize": "14px",
+      "bodyWeight": "400"
+    },
+    "spacing": {
+      "padding": "12px 16px",
+      "gap": "12px"
+    },
+    "borders": {
+      "radius": "6px",
+      "width": "1px"
+    }
+  },
+  "requirements": {
+    "props": [
+      {
+        "name": "variant",
+        "type": "'info' | 'success' | 'warning' | 'error'",
+        "description": "Alert variant"
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "description": "Alert title"
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "description": "Alert message content"
+      },
+      {
+        "name": "icon",
+        "type": "React.ReactNode",
+        "description": "Custom icon (optional)"
+      },
+      {
+        "name": "onClose",
+        "type": "() => void",
+        "description": "Close handler (makes alert dismissible)"
+      }
+    ],
+    "events": [
+      {
+        "name": "onClose",
+        "type": "() => void",
+        "description": "Called when alert is dismissed"
+      }
+    ],
+    "states": [],
+    "accessibility": [
+      {
+        "name": "role",
+        "description": "Should be 'alert' for important messages or 'status' for status updates"
+      },
+      {
+        "name": "aria-live",
+        "description": "Should be 'polite' or 'assertive' depending on urgency"
+      },
+      {
+        "name": "aria-atomic",
+        "description": "Should be 'true' to announce entire alert"
+      }
+    ]
+  }
+}

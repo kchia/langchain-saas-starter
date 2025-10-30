@@ -1,0 +1,60 @@
+{
+  "component_name": "Card",
+  "component_type": "card",
+  "tokens": {
+    "colors": {
+      "background": "#FFFFFF",
+      "border": "#E5E7EB",
+      "text": "#111827"
+    },
+    "typography": {
+      "titleSize": "18px",
+      "titleWeight": "600",
+      "bodySize": "14px",
+      "bodyWeight": "400"
+    },
+    "spacing": {
+      "padding": "16px",
+      "gap": "12px"
+    },
+    "borders": {
+      "radius": "8px",
+      "width": "1px"
+    },
+    "shadows": {
+      "sm": "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+      "md": "0 4px 6px -1px rgba(0, 0, 0, 0.1)"
+    }
+  },
+  "requirements": {
+    "props": [
+      {
+        "name": "variant",
+        "type": "'outlined' | 'elevated' | 'filled'",
+        "description": "Visual style variant"
+      },
+      {
+        "name": "padding",
+        "type": "'none' | 'sm' | 'md' | 'lg'",
+        "description": "Internal padding size"
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "description": "Card content"
+      }
+    ],
+    "events": [],
+    "states": [],
+    "accessibility": [
+      {
+        "name": "role",
+        "description": "Use 'article' or 'region' for semantic HTML"
+      },
+      {
+        "name": "aria-labelledby",
+        "description": "Reference to card title element if present"
+      }
+    ]
+  }
+}

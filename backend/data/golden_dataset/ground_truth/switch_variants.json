@@ -1,0 +1,49 @@
+{
+  "screenshot_id": "switch_variants",
+  "component_name": "Switch Component Variants",
+  "variants": [
+    "off",
+    "on",
+    "disabled_off",
+    "disabled_on"
+  ],
+  "expected_tokens": {
+    "colors": {
+      "off_bg": "#E5E7EB",
+      "on_bg": "#3B82F6",
+      "slider": "#FFFFFF",
+      "disabled_bg": "#F3F4F6",
+      "disabled_slider": "#E5E7EB",
+      "label": "#1E293B"
+    },
+    "spacing": {
+      "gap": "12px",
+      "slider_margin": "2px"
+    },
+    "typography": {
+      "fontSize": "14px"
+    },
+    "border": {
+      "radius": "12px"
+    },
+    "dimensions": {
+      "width": "44px",
+      "height": "24px",
+      "slider_size": "20px"
+    },
+    "animation": {
+      "slider_translate": "20px",
+      "transition": "0.2s"
+    }
+  },
+  "expected_pattern_id": "switch",
+  "expected_code_properties": {
+    "has_checked_state": true,
+    "has_disabled_state": true,
+    "has_label": true,
+    "has_animation": true,
+    "has_accessibility": true,
+    "compiles": true
+  },
+  "notes": "Multi-variant showcase: Off, On, Disabled off, and Disabled on states with smooth toggle animation"
+}

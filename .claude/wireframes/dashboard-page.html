@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - ComponentForge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+        .transition-all { transition: all 0.2s ease; }
+        .focus-ring:focus { outline: 2px solid #3B82F6; outline-offset: 2px; }
+        .hover-effect:hover { opacity: 0.9; transform: scale(0.995); }
+        
+        .metric-card {
+            transition: all 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, var(--color) 0%, var(--color) var(--progress), #E5E7EB var(--progress));
+        }
+        
+        .success-indicator { color: #10B981; }
+        .warning-indicator { color: #F59E0B; }
+        .error-indicator { color: #EF4444; }
+        
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .count-animation {
+            animation: countUp 0.5s ease;
+        }
+        
+        .component-row:hover {
+            background-color: #F9FAFB;
+        }
+        
+        .chart-bar {
+            transition: all 0.3s ease;
+        }
+        
+        .chart-bar:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-900">
+    <!-- Header -->
+    <header class="border-b border-gray-200 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold text-sm">CF</span>
+                    </div>
+                    <span class="font-semibold text-lg">ComponentForge</span>
+                </div>
+                <nav class="flex items-center gap-4">
+                    <button class="text-gray-600 hover:text-gray-900 transition-colors focus-ring px-3 py-2 rounded-md">
+                        Settings
+                    </button>
+                    <button class="text-gray-600 hover:text-gray-900 transition-colors focus-ring px-3 py-2 rounded-md">
+                        Profile
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Page Header -->
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-2xl font-bold">Dashboard</h1>
+            <button onclick="generateComponent()" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors focus-ring hover-effect font-medium">
+                + Generate Component
+            </button>
+        </div>
+
+        <!-- Key Metrics -->
+        <div class="mb-8">
+            <h2 class="text-lg font-semibold mb-4">📊 KEY METRICS (Last 30 days)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- Components Card -->
+                <div class="metric-card bg-white border border-gray-200 rounded-lg p-6">
+                    <p class="text-sm text-gray-600 mb-2">Components</p>
+                    <p class="text-3xl font-bold mb-2 count-animation">12</p>
+                    <p class="text-sm text-green-600">+3 this week</p>
+                </div>
+
+                <!-- Average Time Card -->
+                <div class="metric-card bg-white border border-gray-200 rounded-lg p-6">
+                    <p class="text-sm text-gray-600 mb-2">Avg Time</p>
+                    <p class="text-3xl font-bold mb-2 count-animation">48s</p>
+                    <p class="text-sm text-green-600">85% faster</p>
+                    <p class="text-xs text-gray-500">(vs manual)</p>
+                </div>
+
+                <!-- Cache Hit Card -->
+                <div class="metric-card bg-white border border-gray-200 rounded-lg p-6">
+                    <p class="text-sm text-gray-600 mb-2">Cache Hit</p>
+                    <p class="text-3xl font-bold mb-2 count-animation">78%</p>
+                    <p class="text-sm text-gray-600">Target: 73%</p>
+                    <p class="text-sm text-green-600">Status: ✅</p>
+                </div>
+
+                <!-- Total Cost Card -->
+                <div class="metric-card bg-white border border-gray-200 rounded-lg p-6">
+                    <p class="text-sm text-gray-600 mb-2">Total $</p>
+                    <p class="text-3xl font-bold mb-2 count-animation">$8.40</p>
+                    <p class="text-sm text-gray-600">$0.70 each</p>
+                    <p class="text-sm text-green-600">Saved: $3,960</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Targets -->
+        <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 mb-8">
+            <h2 class="text-lg font-semibold mb-4">🎯 SUCCESS TARGETS</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex items-center justify-between">
+                    <span class="text-sm">Time: 85% faster</span>
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm text-gray-600">(target: ≥85%)</span>
+                        <span class="success-indicator">✅</span>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm">A11y: 100% compliant</span>
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm text-gray-600">(0 critical)</span>
+                        <span class="success-indicator">✅</span>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm">Token adherence: 92% avg</span>
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm text-gray-600">(target: ≥90%)</span>
+                        <span class="success-indicator">✅</span>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm">Retrieval MRR: 0.87</span>
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm text-gray-600">(target: ≥0.83)</span>
+                        <span class="success-indicator">✅</span>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm">Retrieval Hit@3: 0.93</span>
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm text-gray-600">(target: ≥0.91)</span>
+                        <span class="success-indicator">✅</span>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm">Latency p50: 48s</span>
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm text-gray-600">(target: ≤60s)</span>
+                        <span class="success-indicator">✅</span>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm">Requirements precision: 78%</span>
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm text-gray-600">(target: ≥80%)</span>
+                        <span class="warning-indicator">⚠️</span>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm">Requirements recall: 72%</span>
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm text-gray-600">(target: ≥70%)</span>
+                        <span class="success-indicator">✅</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Components -->
+        <div class="bg-white border border-gray-200 rounded-lg mb-8">
+            <div class="p-6 border-b">
+                <h2 class="text-lg font-semibold">📦 RECENT COMPONENTS</h2>
+            </div>
+            <div class="divide-y">
+                <!-- Button Component -->
+                <div class="component-row px-6 py-4 flex items-center justify-between transition-colors">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-2">
+                            <h3 class="font-medium">Button</h3>
+                            <span class="text-sm text-gray-500">Today, 2:34 PM</span>
+                        </div>
+                        <div class="flex items-center gap-4 text-sm">
+                            <span class="flex items-center gap-1">
+                                <span class="success-indicator">✅</span>
+                                94% tokens
+                            </span>
+                            <span class="flex items-center gap-1">
+                                <span class="success-indicator">✅</span>
+                                0 critical a11y
+                            </span>
+                            <span>48s</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1">Pattern: shadcn/ui Button v2.1.0</p>
+                    </div>
+                    <button onclick="viewComponent('button')" class="px-3 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors text-sm focus-ring">
+                        View
+                    </button>
+                </div>
+
+                <!-- Card Component -->
+                <div class="component-row px-6 py-4 flex items-center justify-between transition-colors">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-2">
+                            <h3 class="font-medium">Card</h3>
+                            <span class="text-sm text-gray-500">Today, 11:20 AM</span>
+                        </div>
+                        <div class="flex items-center gap-4 text-sm">
+                            <span class="flex items-center gap-1">
+                                <span class="success-indicator">✅</span>
+                                91% tokens
+                            </span>
+                            <span class="flex items-center gap-1">
+                                <span class="success-indicator">✅</span>
+                                0 critical a11y
+                            </span>
+                            <span>52s</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1">Pattern: shadcn/ui Card v1.0.0</p>
+                    </div>
+                    <button onclick="viewComponent('card')" class="px-3 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors text-sm focus-ring">
+                        View
+                    </button>
+                </div>
+
+                <!-- Input Component -->
+                <div class="component-row px-6 py-4 flex items-center justify-between transition-colors">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-2">
+                            <h3 class="font-medium">Input</h3>
+                            <span class="text-sm text-gray-500">Yesterday, 4:15 PM</span>
+                        </div>
+                        <div class="flex items-center gap-4 text-sm">
+                            <span class="flex items-center gap-1">
+                                <span class="warning-indicator">⚠️</span>
+                                87% tokens
+                            </span>
+                            <span class="flex items-center gap-1">
+                                <span class="success-indicator">✅</span>
+                                0 critical a11y
+                            </span>
+                            <span>61s</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1">Pattern: shadcn/ui Input v1.0.0</p>
+                    </div>
+                    <button onclick="viewComponent('input')" class="px-3 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors text-sm focus-ring">
+                        View
+                    </button>
+                </div>
+
+                <!-- Badge Component -->
+                <div class="component-row px-6 py-4 flex items-center justify-between transition-colors">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-2">
+                            <h3 class="font-medium">Badge</h3>
+                            <span class="text-sm text-gray-500">Oct 2, 9:30 AM</span>
+                        </div>
+                        <div class="flex items-center gap-4 text-sm">
+                            <span class="flex items-center gap-1">
+                                <span class="success-indicator">✅</span>
+                                96% tokens
+                            </span>
+                            <span class="flex items-center gap-1">
+                                <span class="success-indicator">✅</span>
+                                0 critical a11y
+                            </span>
+                            <span>42s</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1">Pattern: shadcn/ui Badge v1.0.0</p>
+                    </div>
+                    <button onclick="viewComponent('badge')" class="px-3 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors text-sm focus-ring">
+                        View
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Retrieval Performance -->
+        <div class="bg-white border border-gray-200 rounded-lg p-6 mb-8">
+            <h2 class="text-lg font-semibold mb-4">📈 RETRIEVAL PERFORMANCE (Eval Set: 24 queries)</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="font-medium mb-3">Current Performance:</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-center justify-between">
+                            <span>MRR: 0.87</span>
+                            <span class="text-green-600">(target: ≥0.83) ✅</span>
+                        </li>
+                        <li class="flex items-center justify-between">
+                            <span>Hit@3: 0.93</span>
+                            <span class="text-green-600">(target: ≥0.91) ✅</span>
+                        </li>
+                        <li class="flex items-center justify-between">
+                            <span>Hit@5: 0.96</span>
+                            <span class="text-gray-600"></span>
+                        </li>
+                        <li class="flex items-center justify-between">
+                            <span>Improvement: +19%</span>
+                            <span class="text-gray-600">vs semantic-only</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="font-medium mb-3">Method Breakdown:</h3>
+                    <div class="space-y-3">
+                        <div>
+                            <div class="flex items-center justify-between text-sm mb-1">
+                                <span>BM25 alone:</span>
+                                <span>MRR 0.65</span>
+                            </div>
+                            <div class="w-full h-2 bg-gray-200 rounded-full progress-bar" style="--color: #64748B; --progress: 65%"></div>
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between text-sm mb-1">
+                                <span>Semantic alone:</span>
+                                <span>MRR 0.71 (baseline)</span>
+                            </div>
+                            <div class="w-full h-2 bg-gray-200 rounded-full progress-bar" style="--color: #3B82F6; --progress: 71%"></div>
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between text-sm mb-1">
+                                <span>Ensemble + Rerank:</span>
+                                <span>MRR 0.87 ✅</span>
+                            </div>
+                            <div class="w-full h-2 bg-gray-200 rounded-full progress-bar" style="--color: #10B981; --progress: 87%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex gap-3 mt-4">
+                <button onclick="viewAnalytics()" class="px-4 py-2 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200 transition-colors font-medium text-sm">
+                    📊 View Detailed Analytics
+                </button>
+                <button onclick="runAblation()" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors font-medium text-sm">
+                    Run Ablation
+                </button>
+            </div>
+        </div>
+
+        <!-- Cache Performance -->
+        <div class="bg-white border border-gray-200 rounded-lg p-6 mb-8">
+            <h2 class="text-lg font-semibold mb-4">💾 CACHE PERFORMANCE (L0-L4 Layers)</h2>
+            
+            <div class="mb-4">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="font-medium">Overall Hit Rate: 78%</span>
+                    <span class="text-green-600 text-sm">(target: 73%) ✅</span>
+                </div>
+                <div class="w-full h-3 bg-gray-200 rounded-full progress-bar" style="--color: #10B981; --progress: 78%"></div>
+            </div>
+            
+            <div class="space-y-3">
+                <div class="flex items-center justify-between text-sm">
+                    <span class="flex items-center gap-2">
+                        <span class="font-medium">L0 (Figma):</span>
+                        <span>45% hit rate</span>
+                    </span>
+                    <span class="text-gray-600">~0.1s latency</span>
+                </div>
+                <div class="flex items-center justify-between text-sm">
+                    <span class="flex items-center gap-2">
+                        <span class="font-medium">L1 (Exact):</span>
+                        <span>12% hit rate</span>
+                    </span>
+                    <span class="text-gray-600">~0.5s latency</span>
+                </div>
+                <div class="flex items-center justify-between text-sm">
+                    <span class="flex items-center gap-2">
+                        <span class="font-medium">L2 (Semantic):</span>
+                        <span>18% hit rate</span>
+                    </span>
+                    <span class="text-gray-600">~0.8s latency</span>
+                </div>
+                <div class="flex items-center justify-between text-sm">
+                    <span class="flex items-center gap-2">
+                        <span class="font-medium">L3 (Pattern):</span>
+                        <span>3% hit rate</span>
+                    </span>
+                    <span class="text-gray-600">~5s latency</span>
+                </div>
+                <div class="flex items-center justify-between text-sm">
+                    <span class="flex items-center gap-2">
+                        <span class="font-medium">L4 (Full gen):</span>
+                        <span>22% miss rate</span>
+                    </span>
+                    <span class="text-gray-600">~48s latency</span>
+                </div>
+            </div>
+            
+            <div class="bg-green-50 rounded-lg p-4 mt-4">
+                <p class="text-sm font-medium">Cost Savings:</p>
+                <p class="text-sm">$0.31 → $0.002 per cache hit</p>
+                <p class="text-sm font-medium mt-1">Total saved: <span class="text-green-600">$23.40 this month</span></p>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="flex gap-3">
+            <button onclick="extractTokens()" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors focus-ring font-medium">
+                Extract Tokens
+            </button>
+            <button onclick="viewPatternLibrary()" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors focus-ring font-medium">
+                View Pattern Library (12)
+            </button>
+            <button onclick="exportAll()" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors focus-ring font-medium">
+                Export All Components
+            </button>
+            <button onclick="viewAPIDocs()" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors focus-ring font-medium">
+                API Documentation
+            </button>
+        </div>
+    </main>
+
+    <script>
+        function generateComponent() {
+            showToast('Navigating to component generation...');
+        }
+
+        function viewComponent(name) {
+            showToast(`Opening ${name} component...`);
+        }
+
+        function viewAnalytics() {
+            showToast('Loading detailed analytics...');
+        }
+
+        function runAblation() {
+            showToast('Starting ablation study...');
+        }
+
+        function extractTokens() {
+            showToast('Opening token extraction page...');
+        }
+
+        function viewPatternLibrary() {
+            showToast('Loading pattern library...');
+        }
+
+        function exportAll() {
+            showToast('Preparing export...');
+        }
+
+        function viewAPIDocs() {
+            showToast('Opening API documentation...');
+        }
+
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg z-50';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // Animate numbers on load
+        window.addEventListener('load', () => {
+            const counters = document.querySelectorAll('.count-animation');
+            counters.forEach(counter => {
+                const target = parseInt(counter.textContent);
+                let current = 0;
+                const increment = target / 20;
+                
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        counter.textContent = counter.textContent; // Keep original text
+                        clearInterval(timer);
+                    }
+                }, 50);
+            });
+        });
+    </script>
+</body>
+</html>

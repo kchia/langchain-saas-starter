@@ -1,0 +1,43 @@
+{
+  "screenshot_id": "select_variants",
+  "component_name": "Select Component Variants",
+  "variants": [
+    "default",
+    "with_selection",
+    "disabled"
+  ],
+  "expected_tokens": {
+    "colors": {
+      "background": "#FFFFFF",
+      "border": "#D1D5DB",
+      "text": "#1E293B",
+      "disabled_bg": "#F3F4F6",
+      "disabled_text": "#9CA3AF",
+      "arrow": "#6B7280"
+    },
+    "spacing": {
+      "padding": "10px 36px 10px 14px",
+      "gaps": "8px"
+    },
+    "typography": {
+      "fontSize": "14px"
+    },
+    "border": {
+      "radius": "6px",
+      "width": "1px"
+    },
+    "dimensions": {
+      "width": "280px"
+    }
+  },
+  "expected_pattern_id": "select",
+  "expected_code_properties": {
+    "has_options": true,
+    "has_disabled_state": true,
+    "has_selected_state": true,
+    "has_custom_arrow": true,
+    "has_accessibility": true,
+    "compiles": true
+  },
+  "notes": "Multi-variant showcase: Default placeholder state, With selection state, and Disabled state with custom dropdown arrow"
+}

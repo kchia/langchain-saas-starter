@@ -1,0 +1,22 @@
+{
+  "quality": "excellent",
+  "why_exemplar": "This is an excellent example because it demonstrates:",
+  "key_features": [
+    "TypeScript strict mode with proper types",
+    "Class Variance Authority (cva) for variant management",
+    "Proper use of design tokens via CSS variables",
+    "ARIA attributes for accessibility",
+    "React.forwardRef for ref forwarding",
+    "Comprehensive JSDoc comments",
+    "displayName for debugging",
+    "Proper prop inheritance from HTMLButtonElement",
+    "Complete Storybook stories with all variants"
+  ],
+  "patterns_demonstrated": [
+    "Variant management with cva",
+    "Design token integration",
+    "Accessibility best practices",
+    "Type-safe props with TypeScript",
+    "Storybook story structure"
+  ]
+}

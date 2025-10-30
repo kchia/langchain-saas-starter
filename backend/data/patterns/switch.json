@@ -1,0 +1,191 @@
+{
+  "id": "shadcn-switch",
+  "name": "Switch",
+  "category": "form",
+  "description": "A toggle switch component for binary on/off choices built on Radix UI from shadcn/ui",
+  "framework": "react",
+  "library": "shadcn/ui",
+  "code": "import * as React from \"react\"\nimport * as SwitchPrimitives from \"@radix-ui/react-switch\"\n\nimport { cn } from \"@/lib/utils\"\n\nconst Switch = React.forwardRef<\n  React.ElementRef<typeof SwitchPrimitives.Root>,\n  React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>\n>(({ className, ...props }, ref) => (\n  <SwitchPrimitives.Root\n    className={cn(\n      \"peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input\",\n      className\n    )}\n    {...props}\n    ref={ref}\n  >\n    <SwitchPrimitives.Thumb\n      className={cn(\n        \"pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0\"\n      )}\n    />\n  </SwitchPrimitives.Root>\n))\nSwitch.displayName = SwitchPrimitives.Root.displayName\n\nexport { Switch }",
+  "metadata": {
+    "states": [
+      {
+        "name": "checked",
+        "description": "Switch is in ON position (thumb on right)"
+      },
+      {
+        "name": "unchecked",
+        "description": "Switch is in OFF position (thumb on left)"
+      }
+    ],
+    "props": [
+      {
+        "name": "checked",
+        "type": "boolean",
+        "optional": true,
+        "description": "Controlled checked state"
+      },
+      {
+        "name": "defaultChecked",
+        "type": "boolean",
+        "optional": true,
+        "description": "Uncontrolled default checked state"
+      },
+      {
+        "name": "onCheckedChange",
+        "type": "function",
+        "optional": true,
+        "description": "Callback when checked state changes"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "optional": true,
+        "description": "Disable switch interaction"
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "optional": true,
+        "description": "Mark as required field"
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "optional": true,
+        "description": "Form field name"
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "optional": true,
+        "description": "Form field value (default: 'on')"
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "optional": true,
+        "description": "Additional CSS classes"
+      }
+    ],
+    "styling": {
+      "track": {
+        "width": "44px (w-11)",
+        "height": "24px (h-6)",
+        "borderRadius": "9999px (rounded-full)",
+        "border": "2px transparent",
+        "background": {
+          "checked": "primary color",
+          "unchecked": "input color (gray)"
+        }
+      },
+      "thumb": {
+        "size": "20px × 20px (h-5 w-5)",
+        "borderRadius": "9999px (rounded-full)",
+        "background": "background color (white)",
+        "shadow": "lg",
+        "position": {
+          "checked": "translate-x-5 (right side)",
+          "unchecked": "translate-x-0 (left side)"
+        },
+        "transition": "transform with smooth animation"
+      },
+      "states": {
+        "focus": "2px ring with offset",
+        "disabled": "50% opacity, not-allowed cursor",
+        "hover": "cursor-pointer"
+      }
+    },
+    "common_use_cases": [
+      {
+        "name": "Settings Toggles",
+        "examples": ["Enable notifications", "Dark mode", "Auto-save"]
+      },
+      {
+        "name": "Feature Flags",
+        "examples": ["Enable beta features", "Show advanced options"]
+      },
+      {
+        "name": "Privacy Controls",
+        "examples": ["Public profile", "Allow messages", "Show activity"]
+      },
+      {
+        "name": "Instant Actions",
+        "examples": ["Mute audio", "Enable WiFi", "Airplane mode"]
+      },
+      {
+        "name": "Binary Preferences",
+        "examples": ["Compact view", "Show thumbnails", "Auto-play"]
+      }
+    ],
+    "best_practices": [
+      {
+        "guideline": "Use for immediate state changes",
+        "example": "Settings that apply instantly without Submit button"
+      },
+      {
+        "guideline": "Label should describe the ON state",
+        "example": "\"Enable notifications\" not \"Notifications enabled/disabled\""
+      },
+      {
+        "guideline": "Provide visual feedback on state change",
+        "example": "Toast notification when important settings change"
+      },
+      {
+        "guideline": "Don't use for form submissions",
+        "example": "Use checkbox for forms that require Submit"
+      }
+    ],
+    "a11y": {
+      "features": [
+        "Full keyboard support (Space to toggle)",
+        "Native switch role via Radix UI",
+        "ARIA attributes (role=switch, aria-checked)",
+        "Focus visible ring indicator",
+        "Screen reader announcements of state",
+        "Proper disabled state handling",
+        "Touch-friendly size (44×24px meets minimum)"
+      ],
+      "recommendations": [
+        "Always pair with <label> for context",
+        "Use htmlFor to associate label with switch",
+        "Clearly indicate current state visually",
+        "Provide immediate feedback on state change",
+        "Use aria-describedby for additional context",
+        "Ensure sufficient color contrast for both states",
+        "Consider loading state for async operations",
+        "Don't use switch for mutually exclusive options (use radio)"
+      ]
+    },
+    "dependencies": [
+      "@radix-ui/react-switch",
+      "clsx",
+      "tailwind-merge"
+    ],
+    "usage_examples": [
+      {
+        "title": "Basic Switch with Label",
+        "code": "<div className=\"flex items-center space-x-2\">\n  <Switch id=\"airplane-mode\" />\n  <label htmlFor=\"airplane-mode\">Airplane Mode</label>\n</div>"
+      },
+      {
+        "title": "Controlled Switch",
+        "code": "const [enabled, setEnabled] = React.useState(false)\n\n<div className=\"flex items-center space-x-2\">\n  <Switch\n    id=\"notifications\"\n    checked={enabled}\n    onCheckedChange={setEnabled}\n  />\n  <label htmlFor=\"notifications\">\n    Enable notifications\n  </label>\n</div>"
+      },
+      {
+        "title": "Switch with Description",
+        "code": "<div className=\"flex items-center justify-between\">\n  <div className=\"space-y-0.5\">\n    <label htmlFor=\"marketing\" className=\"font-medium\">\n      Marketing emails\n    </label>\n    <p className=\"text-sm text-muted-foreground\">\n      Receive emails about new products and features\n    </p>\n  </div>\n  <Switch id=\"marketing\" />\n</div>"
+      },
+      {
+        "title": "Disabled Switch",
+        "code": "<div className=\"flex items-center space-x-2\">\n  <Switch id=\"disabled\" disabled />\n  <label htmlFor=\"disabled\" className=\"text-muted-foreground\">\n    Disabled option\n  </label>\n</div>"
+      },
+      {
+        "title": "Settings Group with Switches",
+        "code": "<div className=\"space-y-4\">\n  <div className=\"flex items-center justify-between\">\n    <label htmlFor=\"push\">Push notifications</label>\n    <Switch id=\"push\" defaultChecked />\n  </div>\n  <div className=\"flex items-center justify-between\">\n    <label htmlFor=\"email\">Email notifications</label>\n    <Switch id=\"email\" defaultChecked />\n  </div>\n  <div className=\"flex items-center justify-between\">\n    <label htmlFor=\"sms\">SMS notifications</label>\n    <Switch id=\"sms\" />\n  </div>\n</div>"
+      },
+      {
+        "title": "Switch with Async Action",
+        "code": "const [loading, setLoading] = React.useState(false)\nconst [enabled, setEnabled] = React.useState(false)\n\nconst handleChange = async (checked: boolean) => {\n  setLoading(true)\n  try {\n    await updateSetting(checked)\n    setEnabled(checked)\n    toast.success(`Setting ${checked ? 'enabled' : 'disabled'}`)\n  } catch (error) {\n    toast.error('Failed to update setting')\n  } finally {\n    setLoading(false)\n  }\n}\n\n<div className=\"flex items-center space-x-2\">\n  <Switch\n    id=\"feature\"\n    checked={enabled}\n    onCheckedChange={handleChange}\n    disabled={loading}\n  />\n  <label htmlFor=\"feature\">\n    {loading ? 'Updating...' : 'Enable feature'}\n  </label>\n</div>"
+      }
+    ]
+  }
+}

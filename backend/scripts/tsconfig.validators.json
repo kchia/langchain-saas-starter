@@ -1,0 +1,33 @@
+{
+  "extends": "../../app/tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "outDir": "./compiled",
+    "rootDir": "../../app/src/services/validation",
+    "noEmit": false,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "baseUrl": "../../app",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": [
+    "../../app/src/services/validation/**/*.ts"
+  ],
+  "exclude": [
+    "../../app/src/services/validation/**/*.test.ts",
+    "../../app/src/services/validation/__tests__/**/*",
+    "../../app/node_modules"
+  ]
+}

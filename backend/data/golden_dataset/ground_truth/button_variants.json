@@ -1,0 +1,57 @@
+{
+  "screenshot_id": "button_variants",
+  "component_name": "Button Component Variants",
+  "variants": [
+    "primary_default",
+    "primary_hover",
+    "primary_disabled",
+    "secondary_default",
+    "secondary_hover",
+    "secondary_disabled",
+    "outlined_default",
+    "outlined_hover",
+    "outlined_disabled",
+    "small",
+    "medium",
+    "large"
+  ],
+  "expected_tokens": {
+    "colors": {
+      "primary": "#3B82F6",
+      "primary_hover": "#2563EB",
+      "secondary": "#64748B",
+      "secondary_hover": "#475569",
+      "outlined": "#3B82F6",
+      "text": "#FFFFFF",
+      "disabled_bg": "#E2E8F0",
+      "disabled_text": "#94A3B8"
+    },
+    "spacing": {
+      "padding_small": "8px 16px",
+      "padding_medium": "12px 24px",
+      "padding_large": "16px 32px",
+      "gaps": "8px"
+    },
+    "typography": {
+      "fontSize_small": "13px",
+      "fontSize_medium": "14px",
+      "fontSize_large": "16px",
+      "fontWeight": "500"
+    },
+    "border": {
+      "radius": "6px",
+      "outlined_width": "2px",
+      "outlined_color": "#3B82F6"
+    }
+  },
+  "expected_pattern_id": "button",
+  "expected_code_properties": {
+    "has_variant_prop": true,
+    "has_size_prop": true,
+    "has_disabled_state": true,
+    "has_hover_state": true,
+    "has_accessibility": true,
+    "compiles": true
+  },
+  "notes": "Multi-variant showcase: Primary, Secondary, Outlined buttons with Default/Hover/Disabled states, plus Small/Medium/Large sizes"
+}

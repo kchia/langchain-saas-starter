@@ -1,0 +1,16 @@
+{
+  "name": "component-forge-validation-scripts",
+  "version": "1.0.0",
+  "description": "TypeScript and ESLint validation scripts for component code generation",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "typescript": "5.9.3",
+    "eslint": "^9",
+    "@types/react": "^18.2.0",
+    "@types/node": "^20.0.0"
+  }
+}

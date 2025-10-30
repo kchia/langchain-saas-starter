@@ -1,0 +1,44 @@
+{
+  "screenshot_id": "badge_variants",
+  "component_name": "Badge Component Variants",
+  "variants": [
+    "success",
+    "warning",
+    "error",
+    "info",
+    "neutral"
+  ],
+  "expected_tokens": {
+    "colors": {
+      "success_bg": "#DCFCE7",
+      "success_text": "#166534",
+      "warning_bg": "#FEF3C7",
+      "warning_text": "#92400E",
+      "error_bg": "#FEE2E2",
+      "error_text": "#991B1B",
+      "info_bg": "#DBEAFE",
+      "info_text": "#1E40AF",
+      "neutral_bg": "#F1F5F9",
+      "neutral_text": "#475569"
+    },
+    "spacing": {
+      "padding": "4px 12px",
+      "gaps": "8px"
+    },
+    "typography": {
+      "fontSize": "12px",
+      "fontWeight": "500"
+    },
+    "border": {
+      "radius": "12px"
+    }
+  },
+  "expected_pattern_id": "badge",
+  "expected_code_properties": {
+    "has_variant_prop": true,
+    "has_color_variants": true,
+    "has_accessibility": true,
+    "compiles": true
+  },
+  "notes": "Multi-variant showcase: Success, Warning, Error, Info, and Neutral badge variants with distinct color schemes"
+}

@@ -1,0 +1,179 @@
+{
+  "id": "shadcn-radio-group",
+  "name": "Radio Group",
+  "category": "form",
+  "description": "A set of checkable buttons (radio buttons) where only one can be checked at a time, built on Radix UI from shadcn/ui",
+  "framework": "react",
+  "library": "shadcn/ui",
+  "code": "import * as React from \"react\"\nimport * as RadioGroupPrimitive from \"@radix-ui/react-radio-group\"\nimport { Circle } from \"lucide-react\"\n\nimport { cn } from \"@/lib/utils\"\n\nconst RadioGroup = React.forwardRef<\n  React.ElementRef<typeof RadioGroupPrimitive.Root>,\n  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>\n>(({ className, ...props }, ref) => {\n  return (\n    <RadioGroupPrimitive.Root\n      className={cn(\"grid gap-2\", className)}\n      {...props}\n      ref={ref}\n    />\n  )\n})\nRadioGroup.displayName = RadioGroupPrimitive.Root.displayName\n\nconst RadioGroupItem = React.forwardRef<\n  React.ElementRef<typeof RadioGroupPrimitive.Item>,\n  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>\n>(({ className, ...props }, ref) => {\n  return (\n    <RadioGroupPrimitive.Item\n      ref={ref}\n      className={cn(\n        \"aspect-square h-4 w-4 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50\",\n        className\n      )}\n      {...props}\n    >\n      <RadioGroupPrimitive.Indicator className=\"flex items-center justify-center\">\n        <Circle className=\"h-2.5 w-2.5 fill-current text-current\" />\n      </RadioGroupPrimitive.Indicator>\n    </RadioGroupPrimitive.Item>\n  )\n})\nRadioGroupItem.displayName = RadioGroupPrimitive.Item.displayName\n\nexport { RadioGroup, RadioGroupItem }",
+  "metadata": {
+    "components": [
+      {
+        "name": "RadioGroup",
+        "description": "Container component that manages radio button group state"
+      },
+      {
+        "name": "RadioGroupItem",
+        "description": "Individual radio button with indicator"
+      }
+    ],
+    "props": [
+      {
+        "name": "value",
+        "type": "string",
+        "optional": true,
+        "scope": "RadioGroup",
+        "description": "Controlled selected value"
+      },
+      {
+        "name": "defaultValue",
+        "type": "string",
+        "optional": true,
+        "scope": "RadioGroup",
+        "description": "Uncontrolled default value"
+      },
+      {
+        "name": "onValueChange",
+        "type": "function",
+        "optional": true,
+        "scope": "RadioGroup",
+        "description": "Callback when selection changes"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "optional": true,
+        "scope": "RadioGroup | RadioGroupItem",
+        "description": "Disable entire group or individual item"
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "optional": true,
+        "scope": "RadioGroup",
+        "description": "Mark group as required"
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "optional": true,
+        "scope": "RadioGroup",
+        "description": "Form field name"
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "optional": false,
+        "scope": "RadioGroupItem",
+        "description": "Value of the radio button"
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "optional": true,
+        "scope": "RadioGroup | RadioGroupItem",
+        "description": "Additional CSS classes"
+      }
+    ],
+    "styling": {
+      "group": {
+        "display": "grid",
+        "gap": "8px (gap-2)",
+        "layout": "vertical by default"
+      },
+      "item": {
+        "size": "16px × 16px (h-4 w-4)",
+        "borderRadius": "9999px (rounded-full)",
+        "border": "1px solid primary color",
+        "aspectRatio": "1:1 (perfect circle)"
+      },
+      "indicator": {
+        "size": "10px × 10px (h-2.5 w-2.5)",
+        "shape": "filled circle",
+        "color": "current (primary color)"
+      },
+      "states": {
+        "checked": "indicator visible",
+        "unchecked": "indicator hidden",
+        "focus": "2px ring with offset",
+        "disabled": "50% opacity, not-allowed cursor"
+      }
+    },
+    "common_use_cases": [
+      {
+        "name": "Single Selection",
+        "example": "Choose payment method"
+      },
+      {
+        "name": "Settings Options",
+        "example": "Select theme (Light, Dark, System)"
+      },
+      {
+        "name": "Survey Questions",
+        "example": "Rate your experience (1-5)"
+      },
+      {
+        "name": "Filter Options",
+        "example": "Sort by (Newest, Popular, Oldest)"
+      },
+      {
+        "name": "Account Type",
+        "example": "Personal or Business"
+      }
+    ],
+    "a11y": {
+      "features": [
+        "Full keyboard navigation (Arrow keys, Tab, Space)",
+        "Radio group semantics via Radix UI",
+        "ARIA attributes (role=radiogroup, aria-checked)",
+        "Focus visible ring indicator",
+        "Screen reader announcements",
+        "Roving tabindex for efficient navigation",
+        "Proper disabled state handling",
+        "Required field validation support"
+      ],
+      "recommendations": [
+        "Always pair with <label> for click target",
+        "Use htmlFor to associate label with radio item",
+        "Wrap group with fieldset and legend for context",
+        "Provide clear, distinct labels for each option",
+        "Ensure one option is selected by default when appropriate",
+        "Use aria-describedby for group instructions",
+        "Consider radio size for touch targets (min 44×44px)",
+        "Ensure sufficient color contrast"
+      ]
+    },
+    "dependencies": [
+      "@radix-ui/react-radio-group",
+      "lucide-react",
+      "clsx",
+      "tailwind-merge"
+    ],
+    "usage_examples": [
+      {
+        "title": "Basic Radio Group",
+        "code": "<RadioGroup defaultValue=\"option-one\">\n  <div className=\"flex items-center space-x-2\">\n    <RadioGroupItem value=\"option-one\" id=\"option-one\" />\n    <label htmlFor=\"option-one\">Option One</label>\n  </div>\n  <div className=\"flex items-center space-x-2\">\n    <RadioGroupItem value=\"option-two\" id=\"option-two\" />\n    <label htmlFor=\"option-two\">Option Two</label>\n  </div>\n</RadioGroup>"
+      },
+      {
+        "title": "Controlled Radio Group",
+        "code": "const [value, setValue] = React.useState(\"card\")\n\n<RadioGroup value={value} onValueChange={setValue}>\n  <div className=\"flex items-center space-x-2\">\n    <RadioGroupItem value=\"card\" id=\"card\" />\n    <label htmlFor=\"card\">Credit Card</label>\n  </div>\n  <div className=\"flex items-center space-x-2\">\n    <RadioGroupItem value=\"paypal\" id=\"paypal\" />\n    <label htmlFor=\"paypal\">PayPal</label>\n  </div>\n  <div className=\"flex items-center space-x-2\">\n    <RadioGroupItem value=\"apple\" id=\"apple\" />\n    <label htmlFor=\"apple\">Apple Pay</label>\n  </div>\n</RadioGroup>"
+      },
+      {
+        "title": "Radio Group with Descriptions",
+        "code": "<RadioGroup defaultValue=\"comfortable\">\n  <div className=\"flex items-center space-x-2\">\n    <RadioGroupItem value=\"default\" id=\"r1\" />\n    <div className=\"grid gap-1.5 leading-none\">\n      <label htmlFor=\"r1\" className=\"font-medium\">\n        Default\n      </label>\n      <p className=\"text-sm text-muted-foreground\">\n        Standard spacing and sizing\n      </p>\n    </div>\n  </div>\n  <div className=\"flex items-center space-x-2\">\n    <RadioGroupItem value=\"comfortable\" id=\"r2\" />\n    <div className=\"grid gap-1.5 leading-none\">\n      <label htmlFor=\"r2\" className=\"font-medium\">\n        Comfortable\n      </label>\n      <p className=\"text-sm text-muted-foreground\">\n        More spacing for easier interaction\n      </p>\n    </div>\n  </div>\n</RadioGroup>"
+      },
+      {
+        "title": "Horizontal Radio Group",
+        "code": "<RadioGroup defaultValue=\"yes\" className=\"flex space-x-4\">\n  <div className=\"flex items-center space-x-2\">\n    <RadioGroupItem value=\"yes\" id=\"yes\" />\n    <label htmlFor=\"yes\">Yes</label>\n  </div>\n  <div className=\"flex items-center space-x-2\">\n    <RadioGroupItem value=\"no\" id=\"no\" />\n    <label htmlFor=\"no\">No</label>\n  </div>\n</RadioGroup>"
+      },
+      {
+        "title": "Radio Group with Fieldset",
+        "code": "<fieldset>\n  <legend className=\"text-sm font-medium mb-2\">\n    Choose your notification preference\n  </legend>\n  <RadioGroup defaultValue=\"all\">\n    <div className=\"flex items-center space-x-2\">\n      <RadioGroupItem value=\"all\" id=\"all\" />\n      <label htmlFor=\"all\">All notifications</label>\n    </div>\n    <div className=\"flex items-center space-x-2\">\n      <RadioGroupItem value=\"important\" id=\"important\" />\n      <label htmlFor=\"important\">Important only</label>\n    </div>\n    <div className=\"flex items-center space-x-2\">\n      <RadioGroupItem value=\"none\" id=\"none\" />\n      <label htmlFor=\"none\">None</label>\n    </div>\n  </RadioGroup>\n</fieldset>"
+      },
+      {
+        "title": "Disabled Radio Option",
+        "code": "<RadioGroup defaultValue=\"option1\">\n  <div className=\"flex items-center space-x-2\">\n    <RadioGroupItem value=\"option1\" id=\"option1\" />\n    <label htmlFor=\"option1\">Available option</label>\n  </div>\n  <div className=\"flex items-center space-x-2\">\n    <RadioGroupItem value=\"option2\" id=\"option2\" disabled />\n    <label\n      htmlFor=\"option2\"\n      className=\"text-muted-foreground cursor-not-allowed\"\n    >\n      Disabled option\n    </label>\n  </div>\n</RadioGroup>"
+      }
+    ]
+  }
+}

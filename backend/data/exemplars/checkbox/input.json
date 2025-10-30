@@ -1,0 +1,90 @@
+{
+  "component_name": "Checkbox",
+  "component_type": "checkbox",
+  "tokens": {
+    "colors": {
+      "border": "#D1D5DB",
+      "borderChecked": "#3B82F6",
+      "background": "#FFFFFF",
+      "backgroundChecked": "#3B82F6",
+      "checkmark": "#FFFFFF",
+      "label": "#374151",
+      "labelDisabled": "#9CA3AF"
+    },
+    "typography": {
+      "labelSize": "14px",
+      "labelWeight": "400"
+    },
+    "spacing": {
+      "gap": "8px"
+    },
+    "borders": {
+      "radius": "4px",
+      "width": "2px"
+    },
+    "sizes": {
+      "checkbox": "16px"
+    }
+  },
+  "requirements": {
+    "props": [
+      {
+        "name": "checked",
+        "type": "boolean",
+        "description": "Whether checkbox is checked"
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "description": "Checkbox label text"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "description": "Whether checkbox is disabled"
+      },
+      {
+        "name": "indeterminate",
+        "type": "boolean",
+        "description": "Whether checkbox is in indeterminate state"
+      }
+    ],
+    "events": [
+      {
+        "name": "onCheckedChange",
+        "type": "(checked: boolean) => void",
+        "description": "Called when checked state changes"
+      }
+    ],
+    "states": [
+      {
+        "name": "isChecked",
+        "type": "boolean",
+        "description": "Current checked state"
+      },
+      {
+        "name": "isIndeterminate",
+        "type": "boolean",
+        "description": "Current indeterminate state"
+      }
+    ],
+    "accessibility": [
+      {
+        "name": "aria-label",
+        "description": "Accessible label when label prop is not provided"
+      },
+      {
+        "name": "aria-checked",
+        "description": "Indicates checked state (true, false, or mixed for indeterminate)"
+      },
+      {
+        "name": "aria-disabled",
+        "description": "Indicates disabled state"
+      },
+      {
+        "name": "role",
+        "description": "Should be 'checkbox'"
+      }
+    ]
+  }
+}

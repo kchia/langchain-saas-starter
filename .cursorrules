@@ -1,0 +1,251 @@
+# Cursor AI Rules for ComponentForge
+
+## CRITICAL: Component Reuse Policy
+
+**BEFORE creating ANY new UI component:**
+
+1. **MUST CHECK** `.claude/BASE-COMPONENTS.md` for existing component specifications
+2. **MUST SEARCH** `app/src/components/ui/` for already-implemented components
+3. **MUST REUSE** existing components - DO NOT recreate from scratch
+4. **MUST USE** composition to extend components, not duplication
+
+### Component Discovery Checklist
+
+```bash
+# Step 1: Check component library spec
+cat .claude/BASE-COMPONENTS.md | grep -i "ComponentName"
+
+# Step 2: Verify implementation exists
+ls app/src/components/ui/component-name.tsx
+
+# Step 3: If exists, import and use
+import { ComponentName } from "@/components/ui/component-name"
+
+# Step 4: If spec exists but not implemented, install from shadcn/ui
+npx shadcn-ui@latest add component-name
+```
+
+## Available Base Components (DO NOT RECREATE)
+
+### P0 (Critical - Used 25+ times)
+- **Button** (60+ uses) - Variants: primary, secondary, ghost, outline, success, warning, destructive
+- **Card** (35+ uses) - Variants: outlined, elevated, interactive
+- **Badge** (25+ uses) - Variants: success, warning, error, info, neutral
+
+### P1 (High Priority - Used 5-10 times)
+- **Tabs** - For Screenshot vs Figma, Preview/Code/Storybook tabs
+- **Progress** (8+ uses) - For extraction, generation, validation metrics
+- **Alert/Banner** - For status messages and notifications
+
+### P2 (Medium Priority - Used 2-5 times)
+- **Input** - Text, URL, password, number inputs
+- **Code Block** - Syntax-highlighted code display with copy button
+- **Modal/Dialog** - For edit forms and reports
+- **Accordion** - For collapsible sections
+
+### Composite Components (DO NOT RECREATE)
+- `RequirementCard` - Card + Badge + Buttons
+- `PatternCard` - Card + Badge + Score visualization
+- `MetricCard` - Card + Number display + Trend
+- `ComponentRow` - Card + Badge + Timestamp
+- `TokenDisplay` - Card + Color swatch + Badge
+- `ProgressStages` - Progress + Stage list
+- `EditModal` - Modal + Form inputs
+- `CodePreviewModal` - Modal + Tabs + CodeBlock
+
+## Tech Stack Requirements
+
+### Frontend
+- **Next.js 15.5.4** - App Router only (NO Pages Router)
+- **TypeScript** - Strict mode, NO 'any' types
+- **shadcn/ui** - Primary component library
+- **Radix UI** - Primitives for custom components
+- **Tailwind CSS v4** - Utility-first styling
+- **Zustand** - Client state management
+- **TanStack Query** - Server state and caching
+- **Lucide React** - Icon library
+
+### Backend
+- **FastAPI** - Async Python API
+- **LangChain/LangGraph** - AI workflows
+- **LangSmith** - AI observability
+- **SQLAlchemy** - Async PostgreSQL ORM
+- **Qdrant** - Vector database
+- **Pydantic** - Data validation
+
+## Code Patterns (MUST FOLLOW)
+
+### Component Structure
+```typescript
+// ✅ CORRECT - Use existing component
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+
+export function MyFeature() {
+  return (
+    <Card>
+      <Button variant="primary">Click Me</Button>
+    </Card>
+  )
+}
+
+// ❌ WRONG - Creating custom button
+export function MyFeature() {
+  return (
+    <div className="rounded-md bg-blue-500 px-4 py-2">
+      <button>Click Me</button>
+    </div>
+  )
+}
+```
+
+### Server Components (Prefer over Client)
+```typescript
+// ✅ CORRECT - Server Component (default)
+export default async function Page() {
+  const data = await fetchData()
+  return <div>{data}</div>
+}
+
+// ❌ WRONG - Unnecessary "use client"
+"use client"
+export default function Page() {
+  return <div>Static content</div>
+}
+```
+
+### State Management
+```typescript
+// ✅ CORRECT - TanStack Query for server state
+const { data, isLoading } = useQuery({
+  queryKey: ['components'],
+  queryFn: fetchComponents
+})
+
+// ✅ CORRECT - Zustand for client state
+const { user, setUser } = useStore()
+
+// ❌ WRONG - useState for server data
+const [data, setData] = useState([])
+useEffect(() => {
+  fetchComponents().then(setData)
+}, [])
+```
+
+## Anti-Patterns (NEVER DO)
+
+### Component Development
+- ❌ Creating custom Button when `@/components/ui/button` exists
+- ❌ Recreating Card, Badge, Input from scratch
+- ❌ Ignoring `.claude/BASE-COMPONENTS.md` specifications
+- ❌ Creating inconsistent component variants
+- ❌ Duplicating component logic
+- ❌ Creating unnecessary wrapper components
+
+### Architecture
+- ❌ Using Pages Router (App Router only)
+- ❌ Mixing client/server component patterns incorrectly
+- ❌ Using JavaScript instead of TypeScript
+- ❌ Bypassing existing auth system
+- ❌ Suggesting changes that break Docker setup
+
+### Code Quality
+- ❌ Using synchronous database operations
+- ❌ Ignoring error handling
+- ❌ Hardcoding values (use environment variables)
+- ❌ Using 'any' types in TypeScript
+- ❌ Skipping input validation
+- ❌ Creating overly complex components
+
+## File Structure
+
+```
+app/
+├── src/
+│   ├── components/
+│   │   ├── ui/               # Base components (shadcn/ui)
+│   │   │   ├── button.tsx
+│   │   │   ├── card.tsx
+│   │   │   ├── badge.tsx
+│   │   │   └── ...
+│   │   ├── composite/        # Composite components
+│   │   │   ├── RequirementCard.tsx
+│   │   │   ├── PatternCard.tsx
+│   │   │   └── ...
+│   │   └── pages/            # Page-specific components
+│   ├── app/                  # Next.js App Router
+│   │   ├── (auth)/
+│   │   ├── dashboard/
+│   │   └── api/
+│   └── lib/
+│       ├── utils.ts
+│       └── store/            # Zustand stores
+
+backend/
+├── src/
+│   ├── api/                  # FastAPI routes
+│   ├── models/               # SQLAlchemy models
+│   ├── schemas/              # Pydantic schemas
+│   ├── services/             # Business logic
+│   └── workflows/            # LangChain/LangGraph
+```
+
+## Accessibility Requirements
+
+- Zero critical violations (axe-core)
+- Zero serious violations (axe-core)
+- WCAG AA contrast ratios (4.5:1 text, 3:1 UI)
+- Keyboard navigation support (Tab, Enter, Space, Escape)
+- Focus indicators (2px, 3:1 contrast)
+- Semantic HTML (`<button>`, `<nav>`, `<main>`)
+- ARIA attributes where needed
+- Screen reader support
+
+## Development Workflow
+
+### Before Starting Any Task
+
+1. Read `.claude/BASE-COMPONENTS.md` for component specs
+2. Check `CLAUDE.md` for architecture patterns
+3. Search existing code for similar implementations
+4. Verify component availability in `app/src/components/ui/`
+
+### Creating New Features
+
+1. Identify required components from BASE-COMPONENTS.md
+2. Check if components are implemented
+3. Install missing components: `npx shadcn-ui@latest add component-name`
+4. Compose feature using existing components
+5. Create composite components if pattern is reused 3+ times
+6. Add to Storybook for documentation
+7. Run accessibility tests: `npm run test:a11y`
+
+### Testing Requirements
+
+- Unit tests for business logic
+- Integration tests for API endpoints
+- E2E tests for critical user flows (Playwright)
+- Accessibility tests (axe-core) - MUST PASS
+- Visual regression tests (Chromatic + Storybook)
+
+## Priority Order for Decision Making
+
+1. **Component Reuse** - Always check existing components first
+2. **Type Safety** - Never use 'any', always define proper types
+3. **Accessibility** - Must meet WCAG AA standards
+4. **Performance** - Server components over client when possible
+5. **Consistency** - Follow established patterns in codebase
+6. **Maintainability** - Clear, simple code over clever code
+
+## Quick Reference
+
+- Component Library: `.claude/BASE-COMPONENTS.md`
+- Architecture Guide: `CLAUDE.md`
+- Project Structure: `tree app/src/components`
+- Install Components: `npx shadcn-ui@latest add [component]`
+- Run Tests: `npm test` (frontend), `pytest` (backend)
+- Start Dev: `make dev` or `npm run dev`
+
+---
+
+**Remember:** The goal is to build consistent, accessible, maintainable UI using our established component library. ALWAYS check for existing components before creating new ones.

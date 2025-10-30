@@ -1,0 +1,47 @@
+{
+  "screenshot_id": "checkbox_variants",
+  "component_name": "Checkbox Component Variants",
+  "variants": [
+    "unchecked",
+    "checked",
+    "disabled",
+    "disabled_checked"
+  ],
+  "expected_tokens": {
+    "colors": {
+      "border": "#D1D5DB",
+      "checked_bg": "#3B82F6",
+      "checked_border": "#3B82F6",
+      "checkmark": "#FFFFFF",
+      "disabled_bg": "#F3F4F6",
+      "disabled_border": "#E5E7EB",
+      "label": "#1E293B",
+      "disabled_label": "#9CA3AF"
+    },
+    "spacing": {
+      "gap": "10px",
+      "padding": "0px"
+    },
+    "typography": {
+      "fontSize": "14px",
+      "label_weight": "400"
+    },
+    "border": {
+      "radius": "4px",
+      "width": "2px"
+    },
+    "dimensions": {
+      "size": "20px"
+    }
+  },
+  "expected_pattern_id": "checkbox",
+  "expected_code_properties": {
+    "has_checked_state": true,
+    "has_disabled_state": true,
+    "has_label": true,
+    "has_checkmark": true,
+    "has_accessibility": true,
+    "compiles": true
+  },
+  "notes": "Multi-variant showcase: Unchecked, Checked, Disabled unchecked, and Disabled checked states with custom styling"
+}

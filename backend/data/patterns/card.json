@@ -1,0 +1,110 @@
+{
+  "id": "shadcn-card",
+  "name": "Card",
+  "category": "layout",
+  "description": "A versatile card container component from shadcn/ui with header, content, and footer sections",
+  "framework": "react",
+  "library": "shadcn/ui",
+  "code": "import * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\n\nconst Card = React.forwardRef<\n  HTMLDivElement,\n  React.HTMLAttributes<HTMLDivElement>\n>(({ className, ...props }, ref) => (\n  <div\n    ref={ref}\n    className={cn(\n      \"rounded-lg border bg-card text-card-foreground shadow-sm\",\n      className\n    )}\n    {...props}\n  />\n))\nCard.displayName = \"Card\"\n\nconst CardHeader = React.forwardRef<\n  HTMLDivElement,\n  React.HTMLAttributes<HTMLDivElement>\n>(({ className, ...props }, ref) => (\n  <div\n    ref={ref}\n    className={cn(\"flex flex-col space-y-1.5 p-6\", className)}\n    {...props}\n  />\n))\nCardHeader.displayName = \"CardHeader\"\n\nconst CardTitle = React.forwardRef<\n  HTMLParagraphElement,\n  React.HTMLAttributes<HTMLHeadingElement>\n>(({ className, ...props }, ref) => (\n  <h3\n    ref={ref}\n    className={cn(\n      \"text-2xl font-semibold leading-none tracking-tight\",\n      className\n    )}\n    {...props}\n  />\n))\nCardTitle.displayName = \"CardTitle\"\n\nconst CardDescription = React.forwardRef<\n  HTMLParagraphElement,\n  React.HTMLAttributes<HTMLParagraphElement>\n>(({ className, ...props }, ref) => (\n  <p\n    ref={ref}\n    className={cn(\"text-sm text-muted-foreground\", className)}\n    {...props}\n  />\n))\nCardDescription.displayName = \"CardDescription\"\n\nconst CardContent = React.forwardRef<\n  HTMLDivElement,\n  React.HTMLAttributes<HTMLDivElement>\n>(({ className, ...props }, ref) => (\n  <div ref={ref} className={cn(\"p-6 pt-0\", className)} {...props} />\n))\nCardContent.displayName = \"CardContent\"\n\nconst CardFooter = React.forwardRef<\n  HTMLDivElement,\n  React.HTMLAttributes<HTMLDivElement>\n>(({ className, ...props }, ref) => (\n  <div\n    ref={ref}\n    className={cn(\"flex items-center p-6 pt-0\", className)}\n    {...props}\n  />\n))\nCardFooter.displayName = \"CardFooter\"\n\nexport { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }",
+  "metadata": {
+    "components": [
+      {
+        "name": "Card",
+        "description": "Root container element with border, rounded corners, and shadow"
+      },
+      {
+        "name": "CardHeader",
+        "description": "Header section with vertical spacing for title and description"
+      },
+      {
+        "name": "CardTitle",
+        "description": "Title heading element (h3) with prominent typography"
+      },
+      {
+        "name": "CardDescription",
+        "description": "Description text with muted foreground color"
+      },
+      {
+        "name": "CardContent",
+        "description": "Main content area with padding"
+      },
+      {
+        "name": "CardFooter",
+        "description": "Footer section with flex layout for actions"
+      }
+    ],
+    "props": [
+      {
+        "name": "className",
+        "type": "string",
+        "optional": true,
+        "description": "Additional CSS classes for customization (all components)"
+      }
+    ],
+    "styling": {
+      "card": {
+        "border": "1px solid border color",
+        "borderRadius": "0.5rem (8px)",
+        "background": "card background color (theme-based)",
+        "shadow": "sm (small shadow)"
+      },
+      "header": {
+        "padding": "1.5rem (24px)",
+        "spacing": "0.375rem (6px) vertical gap"
+      },
+      "title": {
+        "fontSize": "1.5rem (24px)",
+        "fontWeight": "600 (semibold)",
+        "lineHeight": "1 (tight)"
+      },
+      "description": {
+        "fontSize": "0.875rem (14px)",
+        "color": "muted-foreground (theme-based)"
+      },
+      "content": {
+        "padding": "1.5rem horizontal, 0 top"
+      },
+      "footer": {
+        "padding": "1.5rem horizontal, 0 top",
+        "display": "flex",
+        "alignItems": "center"
+      }
+    },
+    "a11y": {
+      "features": [
+        "Semantic HTML structure",
+        "Proper heading hierarchy (h3 for title)",
+        "Color contrast compliant",
+        "Supports custom ARIA attributes",
+        "Keyboard navigation compatible"
+      ],
+      "recommendations": [
+        "Use CardTitle for main heading to maintain document outline",
+        "Consider adding role=\"region\" and aria-label for landmark navigation",
+        "Ensure interactive elements in footer have proper focus styles"
+      ]
+    },
+    "dependencies": [
+      "clsx",
+      "tailwind-merge"
+    ],
+    "usage_examples": [
+      {
+        "title": "Basic Card",
+        "code": "<Card>\n  <CardHeader>\n    <CardTitle>Card Title</CardTitle>\n    <CardDescription>Card description goes here</CardDescription>\n  </CardHeader>\n  <CardContent>\n    <p>Card content</p>\n  </CardContent>\n</Card>"
+      },
+      {
+        "title": "Card with Footer",
+        "code": "<Card>\n  <CardHeader>\n    <CardTitle>Create Project</CardTitle>\n    <CardDescription>Deploy your new project in one-click.</CardDescription>\n  </CardHeader>\n  <CardContent>\n    <form>\n      <input placeholder=\"Project name\" />\n    </form>\n  </CardContent>\n  <CardFooter>\n    <Button>Create</Button>\n  </CardFooter>\n</Card>"
+      },
+      {
+        "title": "Interactive Card",
+        "code": "<Card className=\"hover:shadow-md transition-shadow cursor-pointer\">\n  <CardHeader>\n    <CardTitle>Feature Card</CardTitle>\n    <CardDescription>Click to learn more</CardDescription>\n  </CardHeader>\n  <CardContent>\n    <p>Additional information about this feature.</p>\n  </CardContent>\n</Card>"
+      },
+      {
+        "title": "Card Grid Layout",
+        "code": "<div className=\"grid gap-4 md:grid-cols-2 lg:grid-cols-3\">\n  <Card>\n    <CardHeader>\n      <CardTitle>Metric 1</CardTitle>\n      <CardDescription>Total Revenue</CardDescription>\n    </CardHeader>\n    <CardContent>\n      <div className=\"text-2xl font-bold\">$45,231.89</div>\n    </CardContent>\n  </Card>\n  {/* More cards... */}\n</div>"
+      }
+    ]
+  }
+}

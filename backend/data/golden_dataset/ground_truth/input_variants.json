@@ -1,0 +1,49 @@
+{
+  "screenshot_id": "input_variants",
+  "component_name": "Input Component Variants",
+  "variants": [
+    "default",
+    "focused",
+    "error",
+    "disabled",
+    "with_icon"
+  ],
+  "expected_tokens": {
+    "colors": {
+      "border": "#D1D5DB",
+      "border_focus": "#3B82F6",
+      "border_error": "#EF4444",
+      "text": "#1E293B",
+      "placeholder": "#9CA3AF",
+      "disabled_bg": "#F3F4F6",
+      "disabled_text": "#9CA3AF",
+      "icon": "#6B7280"
+    },
+    "spacing": {
+      "padding": "10px 14px",
+      "padding_with_icon": "10px 14px 10px 40px",
+      "gaps": "8px"
+    },
+    "typography": {
+      "fontSize": "14px",
+      "placeholder_color": "#9CA3AF"
+    },
+    "border": {
+      "radius": "6px",
+      "width": "1px"
+    },
+    "dimensions": {
+      "width": "280px"
+    }
+  },
+  "expected_pattern_id": "input",
+  "expected_code_properties": {
+    "has_focus_state": true,
+    "has_error_state": true,
+    "has_disabled_state": true,
+    "has_icon_support": true,
+    "has_accessibility": true,
+    "compiles": true
+  },
+  "notes": "Multi-variant showcase: Default, Focused, Error, Disabled states, plus Input with icon variant"
+}

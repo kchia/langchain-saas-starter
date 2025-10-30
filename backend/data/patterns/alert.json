@@ -1,0 +1,154 @@
+{
+  "id": "shadcn-alert",
+  "name": "Alert",
+  "category": "feedback",
+  "description": "A notification banner component for displaying important messages with optional icons and actions from shadcn/ui",
+  "framework": "react",
+  "library": "shadcn/ui",
+  "code": "import * as React from \"react\"\nimport { cva, type VariantProps } from \"class-variance-authority\"\n\nimport { cn } from \"@/lib/utils\"\n\nconst alertVariants = cva(\n  \"relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground\",\n  {\n    variants: {\n      variant: {\n        default: \"bg-background text-foreground\",\n        destructive:\n          \"border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive\",\n      },\n    },\n    defaultVariants: {\n      variant: \"default\",\n    },\n  }\n)\n\nconst Alert = React.forwardRef<\n  HTMLDivElement,\n  React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof alertVariants>\n>(({ className, variant, ...props }, ref) => (\n  <div\n    ref={ref}\n    role=\"alert\"\n    className={cn(alertVariants({ variant }), className)}\n    {...props}\n  />\n))\nAlert.displayName = \"Alert\"\n\nconst AlertTitle = React.forwardRef<\n  HTMLParagraphElement,\n  React.HTMLAttributes<HTMLHeadingElement>\n>(({ className, ...props }, ref) => (\n  <h5\n    ref={ref}\n    className={cn(\"mb-1 font-medium leading-none tracking-tight\", className)}\n    {...props}\n  />\n))\nAlertTitle.displayName = \"AlertTitle\"\n\nconst AlertDescription = React.forwardRef<\n  HTMLParagraphElement,\n  React.HTMLAttributes<HTMLParagraphElement>\n>(({ className, ...props }, ref) => (\n  <div\n    ref={ref}\n    className={cn(\"text-sm [&_p]:leading-relaxed\", className)}\n    {...props}\n  />\n))\nAlertDescription.displayName = \"AlertDescription\"\n\nexport { Alert, AlertTitle, AlertDescription }",
+  "metadata": {
+    "components": [
+      {
+        "name": "Alert",
+        "description": "Root container with border, padding, and icon positioning"
+      },
+      {
+        "name": "AlertTitle",
+        "description": "Title heading (h5) with medium weight typography"
+      },
+      {
+        "name": "AlertDescription",
+        "description": "Description text with relaxed line height"
+      }
+    ],
+    "variants": [
+      {
+        "name": "default",
+        "description": "Standard alert with default colors",
+        "use_case": "General information, announcements"
+      },
+      {
+        "name": "destructive",
+        "description": "Error/warning alert with destructive colors",
+        "use_case": "Errors, warnings, critical notifications"
+      }
+    ],
+    "props": [
+      {
+        "name": "variant",
+        "type": "string",
+        "optional": true,
+        "default": "default",
+        "description": "Visual style variant of the alert"
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "optional": true,
+        "description": "Additional CSS classes"
+      },
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "optional": false,
+        "description": "Alert content (icon, title, description)"
+      }
+    ],
+    "styling": {
+      "container": {
+        "width": "100% (w-full)",
+        "padding": "16px (p-4)",
+        "borderRadius": "0.5rem (8px)",
+        "border": "1px solid border color",
+        "position": "relative"
+      },
+      "icon": {
+        "position": "absolute",
+        "left": "16px (left-4)",
+        "top": "16px (top-4)",
+        "size": "Inherits from child svg"
+      },
+      "title": {
+        "fontWeight": "500 (medium)",
+        "lineHeight": "1 (none)",
+        "marginBottom": "4px (mb-1)",
+        "letterSpacing": "tight"
+      },
+      "description": {
+        "fontSize": "0.875rem (14px)",
+        "lineHeight": "relaxed",
+        "paddingLeft": "28px when icon present (pl-7)"
+      }
+    },
+    "common_use_cases": [
+      {
+        "name": "Success Messages",
+        "example": "Your changes have been saved successfully"
+      },
+      {
+        "name": "Error Messages",
+        "example": "Failed to submit form. Please check your inputs."
+      },
+      {
+        "name": "Warning Messages",
+        "example": "This action cannot be undone"
+      },
+      {
+        "name": "Information Messages",
+        "example": "New features are available in this update"
+      },
+      {
+        "name": "Loading States",
+        "example": "Processing your request..."
+      }
+    ],
+    "a11y": {
+      "features": [
+        "Built-in role=\"alert\" for screen readers",
+        "Semantic heading structure (h5 for title)",
+        "Sufficient color contrast for all variants",
+        "Icon and text combination for better understanding",
+        "Live region announcements for dynamic alerts"
+      ],
+      "recommendations": [
+        "Use descriptive titles that summarize the alert",
+        "Don't rely on color alone to convey meaning",
+        "Include close button for dismissible alerts",
+        "Use appropriate icons (Info, Warning, Error, Success)",
+        "Consider aria-live for dynamic alerts",
+        "Ensure alert is keyboard accessible if interactive"
+      ]
+    },
+    "dependencies": [
+      "class-variance-authority",
+      "clsx",
+      "tailwind-merge"
+    ],
+    "usage_examples": [
+      {
+        "title": "Basic Alert",
+        "code": "<Alert>\n  <AlertTitle>Heads up!</AlertTitle>\n  <AlertDescription>\n    You can add components to your app using the cli.\n  </AlertDescription>\n</Alert>"
+      },
+      {
+        "title": "Destructive Alert",
+        "code": "<Alert variant=\"destructive\">\n  <AlertTitle>Error</AlertTitle>\n  <AlertDescription>\n    Your session has expired. Please log in again.\n  </AlertDescription>\n</Alert>"
+      },
+      {
+        "title": "Alert with Icon",
+        "code": "<Alert>\n  <Terminal className=\"h-4 w-4\" />\n  <AlertTitle>Heads up!</AlertTitle>\n  <AlertDescription>\n    You can add components to your app using the cli.\n  </AlertDescription>\n</Alert>"
+      },
+      {
+        "title": "Success Alert with Custom Styling",
+        "code": "<Alert className=\"border-green-500 bg-green-50 dark:bg-green-950\">\n  <CheckCircle2 className=\"h-4 w-4 text-green-600\" />\n  <AlertTitle className=\"text-green-800\">Success</AlertTitle>\n  <AlertDescription className=\"text-green-700\">\n    Your profile has been updated successfully.\n  </AlertDescription>\n</Alert>"
+      },
+      {
+        "title": "Warning Alert",
+        "code": "<Alert className=\"border-yellow-500 bg-yellow-50 dark:bg-yellow-950\">\n  <AlertTriangle className=\"h-4 w-4 text-yellow-600\" />\n  <AlertTitle className=\"text-yellow-800\">Warning</AlertTitle>\n  <AlertDescription className=\"text-yellow-700\">\n    This action will permanently delete your data.\n  </AlertDescription>\n</Alert>"
+      },
+      {
+        "title": "Dismissible Alert",
+        "code": "<Alert>\n  <Info className=\"h-4 w-4\" />\n  <AlertTitle>Information</AlertTitle>\n  <AlertDescription>\n    This is an important message.\n  </AlertDescription>\n  <button\n    className=\"absolute top-4 right-4\"\n    onClick={() => setShowAlert(false)}\n  >\n    <X className=\"h-4 w-4\" />\n  </button>\n</Alert>"
+      }
+    ]
+  }
+}

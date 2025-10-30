@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requirements Review - ComponentForge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+        .transition-all { transition: all 0.2s ease; }
+        .focus-ring:focus { outline: 2px solid #3B82F6; outline-offset: 2px; }
+        .hover-effect:hover { opacity: 0.9; transform: scale(0.995); }
+        
+        .confidence-high { color: #10B981; }
+        .confidence-medium { color: #F59E0B; }
+        .confidence-low { color: #EF4444; }
+        
+        .expand-collapse {
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .collapsed { max-height: 0; opacity: 0; }
+        .expanded { max-height: 1000px; opacity: 1; }
+        
+        .modal-backdrop {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .modal-content {
+            animation: slideIn 0.2s ease;
+        }
+        
+        .requirement-card {
+            transition: all 0.2s ease;
+        }
+        
+        .requirement-card:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        .status-accepted { background-color: #F0FDF4; border-color: #10B981; }
+        .status-review { background-color: #FEF3C7; border-color: #F59E0B; }
+        .status-rejected { background-color: #FEF2F2; border-color: #EF4444; }
+    </style>
+</head>
+<body class="bg-white text-gray-900">
+    <!-- Header -->
+    <header class="border-b border-gray-200 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold text-sm">CF</span>
+                    </div>
+                    <span class="font-semibold text-lg">ComponentForge</span>
+                </div>
+                <nav class="flex items-center gap-4">
+                    <button class="text-gray-600 hover:text-gray-900 transition-colors focus-ring px-3 py-2 rounded-md">
+                        Settings
+                    </button>
+                    <button class="text-gray-600 hover:text-gray-900 transition-colors focus-ring px-3 py-2 rounded-md">
+                        Profile
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Page Header -->
+        <div class="mb-8">
+            <button class="text-gray-600 hover:text-gray-900 mb-4 flex items-center gap-2 focus-ring px-2 py-1 rounded">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                Back to Tokens
+            </button>
+            <h1 class="text-2xl font-bold">Review Requirements</h1>
+        </div>
+
+        <!-- AI Analysis Summary -->
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
+            <h2 class="font-semibold mb-2 flex items-center gap-2">
+                <span>🤖</span>
+                AI Analysis Complete
+            </h2>
+            <div class="space-y-1 text-sm">
+                <p>Component Type: <span class="font-medium">Button</span> (0.92 confidence)</p>
+                <p>Completed in <span class="font-medium">12s</span> (target: ≤15s)</p>
+                <p>Based on: Design tokens + Visual analysis</p>
+            </div>
+        </div>
+
+        <!-- Bulk Actions -->
+        <div class="flex gap-3 mb-6">
+            <button onclick="acceptAll()" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors focus-ring hover-effect font-medium">
+                ✓ Accept All
+            </button>
+            <button onclick="reviewLowConfidence()" class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition-colors focus-ring hover-effect font-medium">
+                ⚠️ Review Low Confidence (&lt;0.8)
+            </button>
+            <button onclick="openAddModal()" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors focus-ring font-medium">
+                + Add Custom Requirement
+            </button>
+        </div>
+
+        <!-- Requirements Sections -->
+        <!-- Props Section -->
+        <div class="mb-6">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="font-semibold flex items-center gap-2">
+                    <span>📦</span>
+                    PROPS (3 requirements)
+                </h3>
+                <button onclick="toggleSection('props')" class="text-blue-500 hover:text-blue-700 text-sm focus-ring px-2 py-1 rounded">
+                    <span id="props-toggle">Collapse</span>
+                </button>
+            </div>
+            <div id="props-section" class="space-y-3 expand-collapse expanded">
+                <!-- Requirement 1 -->
+                <div class="requirement-card border border-gray-200 rounded-lg p-4 hover:border-gray-300" data-confidence="0.95">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex items-center gap-3">
+                            <span class="confidence-high text-xl">✅</span>
+                            <div>
+                                <span class="font-mono text-sm text-gray-600">req-001</span>
+                                <h4 class="font-medium">variant (string)</h4>
+                                <p class="text-sm text-gray-600 mt-1">Values: "primary" | "secondary" | "ghost"</p>
+                                <p class="text-sm text-gray-500">Confidence: 0.95</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded mt-3 mb-3">
+                        <p class="text-sm"><span class="font-medium">💡 Rationale:</span> "3 distinct button styles with different backgrounds detected"</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="acceptRequirement('req-001')" class="px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200 transition-colors text-sm focus-ring">
+                            ✓ Accept
+                        </button>
+                        <button onclick="openEditModal('req-001')" class="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition-colors text-sm focus-ring">
+                            ✎ Edit
+                        </button>
+                        <button onclick="removeRequirement('req-001')" class="px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200 transition-colors text-sm focus-ring">
+                            ✗ Remove
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Requirement 2 -->
+                <div class="requirement-card border border-gray-200 rounded-lg p-4 hover:border-gray-300" data-confidence="0.78">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex items-center gap-3">
+                            <span class="confidence-medium text-xl">⚠️</span>
+                            <div>
+                                <span class="font-mono text-sm text-gray-600">req-002</span>
+                                <h4 class="font-medium">size (string)</h4>
+                                <p class="text-sm text-gray-600 mt-1">Values: "sm" | "md" | "lg"</p>
+                                <p class="text-sm text-gray-500">Confidence: 0.78</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded mt-3 mb-3">
+                        <p class="text-sm"><span class="font-medium">💡 Rationale:</span> "Multiple size variations inferred from padding differences"</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="acceptRequirement('req-002')" class="px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200 transition-colors text-sm focus-ring">
+                            ✓ Accept
+                        </button>
+                        <button onclick="openEditModal('req-002')" class="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition-colors text-sm focus-ring">
+                            ✎ Edit
+                        </button>
+                        <button onclick="removeRequirement('req-002')" class="px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200 transition-colors text-sm focus-ring">
+                            ✗ Remove
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Requirement 3 -->
+                <div class="requirement-card border border-gray-200 rounded-lg p-4 hover:border-gray-300" data-confidence="0.91">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex items-center gap-3">
+                            <span class="confidence-high text-xl">✅</span>
+                            <div>
+                                <span class="font-mono text-sm text-gray-600">req-003</span>
+                                <h4 class="font-medium">disabled (boolean)</h4>
+                                <p class="text-sm text-gray-500">Confidence: 0.91</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded mt-3 mb-3">
+                        <p class="text-sm"><span class="font-medium">💡 Rationale:</span> "Opacity-50 disabled state layer detected in Figma"</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="acceptRequirement('req-003')" class="px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200 transition-colors text-sm focus-ring">
+                            ✓ Accept
+                        </button>
+                        <button onclick="openEditModal('req-003')" class="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition-colors text-sm focus-ring">
+                            ✎ Edit
+                        </button>
+                        <button onclick="removeRequirement('req-003')" class="px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200 transition-colors text-sm focus-ring">
+                            ✗ Remove
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Events Section -->
+        <div class="mb-6">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="font-semibold flex items-center gap-2">
+                    <span>🎯</span>
+                    EVENTS (2 requirements)
+                </h3>
+                <button onclick="toggleSection('events')" class="text-blue-500 hover:text-blue-700 text-sm focus-ring px-2 py-1 rounded">
+                    <span id="events-toggle">Expand</span>
+                </button>
+            </div>
+            <div id="events-section" class="space-y-3 expand-collapse collapsed">
+                <!-- Event Requirements -->
+                <div class="requirement-card border border-gray-200 rounded-lg p-4 hover:border-gray-300" data-confidence="0.88">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex items-center gap-3">
+                            <span class="confidence-high text-xl">✅</span>
+                            <div>
+                                <span class="font-mono text-sm text-gray-600">req-004</span>
+                                <h4 class="font-medium">onClick (required)</h4>
+                                <p class="text-sm text-gray-600 mt-1">Type: MouseEventHandler&lt;HTMLButtonElement&gt;</p>
+                                <p class="text-sm text-gray-500">Confidence: 0.88</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded mt-3 mb-3">
+                        <p class="text-sm"><span class="font-medium">💡 Rationale:</span> "cursor:pointer detected, interactive element"</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200 transition-colors text-sm focus-ring">
+                            ✓ Accept
+                        </button>
+                        <button class="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition-colors text-sm focus-ring">
+                            ✎ Edit
+                        </button>
+                        <button class="px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200 transition-colors text-sm focus-ring">
+                            ✗ Remove
+                        </button>
+                    </div>
+                </div>
+                <div class="requirement-card border border-gray-200 rounded-lg p-4 hover:border-gray-300" data-confidence="0.85">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex items-center gap-3">
+                            <span class="confidence-high text-xl">✅</span>
+                            <div>
+                                <span class="font-mono text-sm text-gray-600">req-005</span>
+                                <h4 class="font-medium">onHover (optional)</h4>
+                                <p class="text-sm text-gray-500">Confidence: 0.85</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded mt-3 mb-3">
+                        <p class="text-sm"><span class="font-medium">💡 Rationale:</span> "Hover state layer with background-opacity-90 found"</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200 transition-colors text-sm focus-ring">
+                            ✓ Accept
+                        </button>
+                        <button class="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition-colors text-sm focus-ring">
+                            ✎ Edit
+                        </button>
+                        <button class="px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200 transition-colors text-sm focus-ring">
+                            ✗ Remove
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- States Section -->
+        <div class="mb-6">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="font-semibold flex items-center gap-2">
+                    <span>🎨</span>
+                    STATES (2 requirements)
+                </h3>
+                <button onclick="toggleSection('states')" class="text-blue-500 hover:text-blue-700 text-sm focus-ring px-2 py-1 rounded">
+                    <span id="states-toggle">Expand</span>
+                </button>
+            </div>
+            <div id="states-section" class="space-y-3 expand-collapse collapsed">
+                <div class="requirement-card border border-gray-200 rounded-lg p-4 hover:border-gray-300">
+                    <div class="flex items-center gap-3">
+                        <span class="confidence-high text-xl">✅</span>
+                        <div>
+                            <span class="font-mono text-sm text-gray-600">req-006</span>
+                            <h4 class="font-medium">hover state</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="requirement-card border border-gray-200 rounded-lg p-4 hover:border-gray-300">
+                    <div class="flex items-center gap-3">
+                        <span class="confidence-high text-xl">✅</span>
+                        <div>
+                            <span class="font-mono text-sm text-gray-600">req-007</span>
+                            <h4 class="font-medium">focus state (with focus ring)</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Accessibility Section -->
+        <div class="mb-6">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="font-semibold flex items-center gap-2">
+                    <span>♿</span>
+                    ACCESSIBILITY (3 requirements)
+                </h3>
+                <button onclick="toggleSection('a11y')" class="text-blue-500 hover:text-blue-700 text-sm focus-ring px-2 py-1 rounded">
+                    <span id="a11y-toggle">Expand</span>
+                </button>
+            </div>
+            <div id="a11y-section" class="space-y-3 expand-collapse collapsed">
+                <div class="requirement-card border border-gray-200 rounded-lg p-4 hover:border-gray-300" data-confidence="0.72">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex items-center gap-3">
+                            <span class="confidence-medium text-xl">⚠️</span>
+                            <div>
+                                <span class="font-mono text-sm text-gray-600">req-008</span>
+                                <h4 class="font-medium">aria-label (optional for icons)</h4>
+                                <p class="text-sm text-gray-500">Confidence: 0.72</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded mt-3 mb-3">
+                        <p class="text-sm"><span class="font-medium">💡 Rationale:</span> "Icon-only variant needs accessible label for screen readers"</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200 transition-colors text-sm focus-ring">
+                            ✓ Accept
+                        </button>
+                        <button class="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition-colors text-sm focus-ring">
+                            ✎ Edit
+                        </button>
+                        <button class="px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200 transition-colors text-sm focus-ring">
+                            ✗ Remove
+                        </button>
+                    </div>
+                </div>
+                <div class="requirement-card border border-gray-200 rounded-lg p-4 hover:border-gray-300" data-confidence="0.94">
+                    <div class="flex items-center gap-3">
+                        <span class="confidence-high text-xl">✅</span>
+                        <div>
+                            <span class="font-mono text-sm text-gray-600">req-009</span>
+                            <h4 class="font-medium">semantic HTML (use &lt;button&gt;)</h4>
+                            <p class="text-sm text-gray-500">Confidence: 0.94</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-2 mt-3">
+                        <button class="px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200 transition-colors text-sm focus-ring">
+                            ✓ Accept
+                        </button>
+                        <button class="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition-colors text-sm focus-ring">
+                            ✎ Edit
+                        </button>
+                        <button class="px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200 transition-colors text-sm focus-ring">
+                            ✗ Remove
+                        </button>
+                    </div>
+                </div>
+                <div class="requirement-card border border-gray-200 rounded-lg p-4 hover:border-gray-300" data-confidence="0.94">
+                    <div class="flex items-center gap-3">
+                        <span class="confidence-high text-xl">✅</span>
+                        <div>
+                            <span class="font-mono text-sm text-gray-600">req-010</span>
+                            <h4 class="font-medium">keyboard navigation (Tab/Enter)</h4>
+                            <p class="text-sm text-gray-500">Confidence: 0.94</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-2 mt-3">
+                        <button class="px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200 transition-colors text-sm focus-ring">
+                            ✓ Accept
+                        </button>
+                        <button class="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition-colors text-sm focus-ring">
+                            ✎ Edit
+                        </button>
+                        <button class="px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200 transition-colors text-sm focus-ring">
+                            ✗ Remove
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="border-t pt-6 mt-8">
+            <h3 class="font-semibold mb-4">📊 Summary: 10 requirements proposed</h3>
+            <div class="space-y-2 text-sm mb-6">
+                <div class="flex items-center gap-2">
+                    <div class="w-4 h-4 rounded-full bg-green-500"></div>
+                    <span>7 accepted (≥0.9 confidence)</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-4 h-4 rounded-full bg-yellow-500"></div>
+                    <span>3 need review (0.7-0.9 confidence)</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-4 h-4 rounded-full bg-red-500"></div>
+                    <span>0 below threshold (&lt;0.7)</span>
+                </div>
+            </div>
+            <p class="text-sm text-gray-600 mb-6">Target Metrics: ≥80% precision, ≥70% recall</p>
+            
+            <!-- Navigation -->
+            <div class="flex gap-3">
+                <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors focus-ring font-medium">
+                    ← Back to Tokens
+                </button>
+                <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors focus-ring font-medium">
+                    Export requirements.json
+                </button>
+                <button class="flex-1 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors focus-ring hover-effect font-medium">
+                    Continue to Pattern Matching →
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Edit Modal -->
+    <div id="edit-modal" class="fixed inset-0 modal-backdrop hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-md w-full modal-content">
+                <div class="p-6">
+                    <h2 class="text-lg font-semibold mb-4">Edit Requirement: req-002</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">ID:</label>
+                            <input type="text" value="req-002" disabled class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Category:</label>
+                            <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option selected>Props</option>
+                                <option>Events</option>
+                                <option>States</option>
+                                <option>Accessibility</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Name:</label>
+                            <input type="text" value="size" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Type:</label>
+                            <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option selected>string</option>
+                                <option>boolean</option>
+                                <option>number</option>
+                                <option>function</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Values (comma-separated):</label>
+                            <input type="text" value="sm, md, lg" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <label class="flex items-center gap-2">
+                                <input type="radio" name="required" checked class="focus:ring-2 focus:ring-blue-500">
+                                <span class="text-sm">Optional</span>
+                            </label>
+                            <label class="flex items-center gap-2">
+                                <input type="radio" name="required" class="focus:ring-2 focus:ring-blue-500">
+                                <span class="text-sm">Required</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Rationale (optional):</label>
+                            <textarea class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" rows="3">Multiple size variations inferred from padding differences</textarea>
+                        </div>
+                    </div>
+                    <div class="flex gap-3 mt-6">
+                        <button onclick="closeEditModal()" class="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors focus-ring font-medium">
+                            Cancel
+                        </button>
+                        <button onclick="saveChanges()" class="flex-1 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors focus-ring hover-effect font-medium">
+                            Save Changes
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSection(section) {
+            const sectionEl = document.getElementById(section + '-section');
+            const toggleBtn = document.getElementById(section + '-toggle');
+            
+            if (sectionEl.classList.contains('collapsed')) {
+                sectionEl.classList.remove('collapsed');
+                sectionEl.classList.add('expanded');
+                toggleBtn.textContent = 'Collapse';
+            } else {
+                sectionEl.classList.add('collapsed');
+                sectionEl.classList.remove('expanded');
+                toggleBtn.textContent = 'Expand';
+            }
+        }
+
+        function acceptAll() {
+            const cards = document.querySelectorAll('.requirement-card');
+            cards.forEach(card => {
+                card.classList.add('status-accepted');
+            });
+        }
+
+        function reviewLowConfidence() {
+            const cards = document.querySelectorAll('.requirement-card');
+            cards.forEach(card => {
+                const confidence = parseFloat(card.dataset.confidence);
+                if (confidence && confidence < 0.8) {
+                    card.classList.add('status-review');
+                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            });
+        }
+
+        function acceptRequirement(id) {
+            console.log('Accepting requirement:', id);
+        }
+
+        function removeRequirement(id) {
+            if (confirm('Are you sure you want to remove this requirement?')) {
+                console.log('Removing requirement:', id);
+            }
+        }
+
+        function openEditModal(id) {
+            document.getElementById('edit-modal').classList.remove('hidden');
+        }
+
+        function closeEditModal() {
+            document.getElementById('edit-modal').classList.add('hidden');
+        }
+
+        function saveChanges() {
+            closeEditModal();
+            // Show success toast
+            showToast('Requirement updated successfully');
+        }
+
+        function openAddModal() {
+            // Similar to edit modal but with empty fields
+            openEditModal('new');
+        }
+
+        function showToast(message) {
+            // Simple toast notification
+            const toast = document.createElement('div');
+            toast.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg z-50';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // Initialize collapsed sections
+        document.addEventListener('DOMContentLoaded', () => {
+            toggleSection('events');
+            toggleSection('states');
+            toggleSection('a11y');
+        });
+    </script>
+</body>
+</html>

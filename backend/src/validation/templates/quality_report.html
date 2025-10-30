@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quality Report - {{ report.component_name }}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #1f2937;
+            background: #f9fafb;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+        }
+        
+        .header h1 {
+            font-size: 1.875rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header .meta {
+            opacity: 0.9;
+            font-size: 0.875rem;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-top: 1rem;
+        }
+        
+        .status-pass {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .status-fail {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .content {
+            padding: 2rem;
+        }
+        
+        .section {
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #111827;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .summary-card {
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .summary-card .label {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+        }
+        
+        .summary-card .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .check-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .check-item .icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+        }
+        
+        .check-item.pass .icon {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .check-item.fail .icon {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .check-item .label {
+            flex: 1;
+            font-weight: 500;
+        }
+        
+        .check-item .score {
+            font-weight: 600;
+            color: #6b7280;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #e5e7eb;
+            border-radius: 9999px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+            transition: width 0.3s ease;
+        }
+        
+        .progress-fill.warning {
+            background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%);
+        }
+        
+        .progress-fill.danger {
+            background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
+        }
+        
+        .recommendations {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 1rem;
+            border-radius: 6px;
+        }
+        
+        .recommendations ul {
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .recommendations li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .auto-fixes {
+            background: #dbeafe;
+            border-left: 4px solid #3b82f6;
+            padding: 1rem;
+            border-radius: 6px;
+        }
+        
+        .auto-fixes ul {
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .auto-fixes li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+        
+        .badge-success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .badge-warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .badge-error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .details-section {
+            background: #f9fafb;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+        }
+        
+        .details-section pre {
+            background: white;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.875rem;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .footer {
+            padding: 1.5rem 2rem;
+            background: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>📊 Quality Report</h1>
+            <div class="meta">
+                Component: <strong>{{ report.component_name }}</strong><br>
+                Generated: {{ report.timestamp }}<br>
+            </div>
+            <div class="status-badge status-{{ report.overall_status|lower }}">
+                {% if report.overall_status == 'PASS' %}✓{% else %}✗{% endif %} {{ report.overall_status }}
+            </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="content">
+            <!-- Summary Cards -->
+            <div class="section">
+                <h2 class="section-title">Summary</h2>
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="label">Total Errors</div>
+                        <div class="value" style="color: {{ '#dc2626' if report.summary.total_errors > 0 else '#059669' }};">
+                            {{ report.summary.total_errors }}
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="label">Total Warnings</div>
+                        <div class="value" style="color: {{ '#d97706' if report.summary.total_warnings > 0 else '#059669' }};">
+                            {{ report.summary.total_warnings }}
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="label">Token Adherence</div>
+                        <div class="value" style="color: {{ '#059669' if report.summary.token_adherence >= 0.90 else '#d97706' }};">
+                            {{ "%.0f"|format(report.summary.token_adherence * 100) }}%
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill {{ 'warning' if report.summary.token_adherence < 0.90 else '' }}" 
+                                 style="width: {{ report.summary.token_adherence * 100 }}%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Validation Checks -->
+            <div class="section">
+                <h2 class="section-title">Validation Checks</h2>
+                
+                <div class="check-item {{ 'pass' if report.summary.typescript else 'fail' }}">
+                    <div class="icon">{{ '✓' if report.summary.typescript else '✗' }}</div>
+                    <div class="label">TypeScript Compilation</div>
+                    <div class="score">
+                        {% if report.details.typescript %}
+                            {{ report.details.typescript.errorCount }} errors
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="check-item {{ 'pass' if report.summary.eslint else 'fail' }}">
+                    <div class="icon">{{ '✓' if report.summary.eslint else '✗' }}</div>
+                    <div class="label">ESLint Validation</div>
+                    <div class="score">
+                        {% if report.details.eslint %}
+                            {{ report.details.eslint.errorCount }} errors
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="check-item {{ 'pass' if report.summary.accessibility else 'fail' }}">
+                    <div class="icon">{{ '✓' if report.summary.accessibility else '✗' }}</div>
+                    <div class="label">Accessibility (axe-core)</div>
+                    <div class="score">
+                        {% if report.details.a11y %}
+                            {{ report.details.a11y.violations|length }} violations
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="check-item {{ 'pass' if report.summary.keyboard else 'fail' }}">
+                    <div class="icon">{{ '✓' if report.summary.keyboard else '✗' }}</div>
+                    <div class="label">Keyboard Navigation</div>
+                    <div class="score">
+                        {% if report.details.keyboard %}
+                            {{ report.details.keyboard.issues|length }} issues
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="check-item {{ 'pass' if report.summary.focus else 'fail' }}">
+                    <div class="icon">{{ '✓' if report.summary.focus else '✗' }}</div>
+                    <div class="label">Focus Indicators</div>
+                    <div class="score">
+                        {% if report.details.focus %}
+                            {{ report.details.focus.issues|length }} issues
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="check-item {{ 'pass' if report.summary.contrast else 'fail' }}">
+                    <div class="icon">{{ '✓' if report.summary.contrast else '✗' }}</div>
+                    <div class="label">Color Contrast (WCAG AA)</div>
+                    <div class="score">
+                        {% if report.details.contrast %}
+                            {{ report.details.contrast.violations|length }} violations
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Auto-Fixes -->
+            {% if report.auto_fixes %}
+            <div class="section">
+                <h2 class="section-title">Auto-Fixes Applied</h2>
+                <div class="auto-fixes">
+                    <strong>{{ report.auto_fixes|length }} fixes automatically applied:</strong>
+                    <ul>
+                        {% for fix in report.auto_fixes %}
+                        <li>{{ fix }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Recommendations -->
+            {% if report.recommendations %}
+            <div class="section">
+                <h2 class="section-title">Recommendations</h2>
+                <div class="recommendations">
+                    <strong>⚠️ Action Items:</strong>
+                    <ul>
+                        {% for recommendation in report.recommendations %}
+                        <li>{{ recommendation }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Detailed Results -->
+            <div class="section">
+                <h2 class="section-title">Detailed Results</h2>
+                <details>
+                    <summary style="cursor: pointer; padding: 1rem; background: #f9fafb; border-radius: 6px; font-weight: 600;">
+                        View Full Validation Details (JSON)
+                    </summary>
+                    <div class="details-section">
+                        <pre>{{ report.details|tojson(indent=2) }}</pre>
+                    </div>
+                </details>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>Generated by ComponentForge Quality Report Generator</p>
+            <p>Epic 5: Extended Quality Validation & Accessibility Testing</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,129 @@
+{
+  "id": "shadcn-button",
+  "name": "Button",
+  "category": "form",
+  "description": "A customizable button component with multiple variants and sizes from shadcn/ui",
+  "framework": "react",
+  "library": "shadcn/ui",
+  "code": "import * as React from \"react\"\nimport { Slot } from \"@radix-ui/react-slot\"\nimport { cva, type VariantProps } from \"class-variance-authority\"\n\nimport { cn } from \"@/lib/utils\"\n\nconst buttonVariants = cva(\n  \"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0\",\n  {\n    variants: {\n      variant: {\n        default: \"bg-primary text-primary-foreground hover:bg-primary/90\",\n        destructive:\n          \"bg-destructive text-destructive-foreground hover:bg-destructive/90\",\n        outline:\n          \"border border-input bg-background hover:bg-accent hover:text-accent-foreground\",\n        secondary:\n          \"bg-secondary text-secondary-foreground hover:bg-secondary/80\",\n        ghost: \"hover:bg-accent hover:text-accent-foreground\",\n        link: \"text-primary underline-offset-4 hover:underline\",\n      },\n      size: {\n        default: \"h-10 px-4 py-2\",\n        sm: \"h-9 rounded-md px-3\",\n        lg: \"h-11 rounded-md px-8\",\n        icon: \"h-10 w-10\",\n      },\n    },\n    defaultVariants: {\n      variant: \"default\",\n      size: \"default\",\n    },\n  }\n)\n\nexport interface ButtonProps\n  extends React.ButtonHTMLAttributes<HTMLButtonElement>,\n    VariantProps<typeof buttonVariants> {\n  asChild?: boolean\n}\n\nconst Button = React.forwardRef<HTMLButtonElement, ButtonProps>(\n  ({ className, variant, size, asChild = false, ...props }, ref) => {\n    const Comp = asChild ? Slot : \"button\"\n    return (\n      <Comp\n        className={cn(buttonVariants({ variant, size, className }))}\n        ref={ref}\n        {...props}\n      />\n    )\n  }\n)\nButton.displayName = \"Button\"\n\nexport { Button, buttonVariants }",
+  "metadata": {
+    "variants": [
+      {
+        "name": "default",
+        "description": "Primary button with solid background"
+      },
+      {
+        "name": "destructive",
+        "description": "Destructive action button (e.g., delete)"
+      },
+      {
+        "name": "outline",
+        "description": "Button with border, transparent background"
+      },
+      {
+        "name": "secondary",
+        "description": "Secondary button with muted styling"
+      },
+      {
+        "name": "ghost",
+        "description": "Minimal button with hover effect"
+      },
+      {
+        "name": "link",
+        "description": "Link-styled button"
+      }
+    ],
+    "sizes": [
+      {
+        "name": "default",
+        "height": "40px",
+        "padding": "16px"
+      },
+      {
+        "name": "sm",
+        "height": "36px",
+        "padding": "12px"
+      },
+      {
+        "name": "lg",
+        "height": "44px",
+        "padding": "32px"
+      },
+      {
+        "name": "icon",
+        "height": "40px",
+        "width": "40px"
+      }
+    ],
+    "props": [
+      {
+        "name": "variant",
+        "type": "string",
+        "optional": true,
+        "default": "default",
+        "description": "Visual style variant of the button"
+      },
+      {
+        "name": "size",
+        "type": "string",
+        "optional": true,
+        "default": "default",
+        "description": "Size of the button"
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "optional": true,
+        "default": false,
+        "description": "Render as a child component using Radix Slot"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "optional": true,
+        "description": "Disable button interaction"
+      }
+    ],
+    "a11y": {
+      "features": [
+        "Keyboard navigation support",
+        "Focus visible ring",
+        "Disabled state with opacity",
+        "ARIA-compatible HTML button element",
+        "Proper contrast ratios for all variants"
+      ],
+      "aria_attributes": [
+        "Native button ARIA attributes supported",
+        "Custom aria-label for icon-only buttons recommended"
+      ]
+    },
+    "dependencies": [
+      "@radix-ui/react-slot",
+      "class-variance-authority",
+      "clsx",
+      "tailwind-merge"
+    ],
+    "usage_examples": [
+      {
+        "title": "Primary Button",
+        "code": "<Button>Click me</Button>"
+      },
+      {
+        "title": "Destructive Button",
+        "code": "<Button variant=\"destructive\">Delete</Button>"
+      },
+      {
+        "title": "Outline Button",
+        "code": "<Button variant=\"outline\">Cancel</Button>"
+      },
+      {
+        "title": "Small Ghost Button",
+        "code": "<Button variant=\"ghost\" size=\"sm\">Edit</Button>"
+      },
+      {
+        "title": "Icon Button",
+        "code": "<Button variant=\"outline\" size=\"icon\"><ChevronRight /></Button>"
+      }
+    ]
+  }
+}

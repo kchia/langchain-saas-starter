@@ -1,0 +1,152 @@
+{
+  "id": "shadcn-select",
+  "name": "Select",
+  "category": "form",
+  "description": "A dropdown select component with search capabilities built on Radix UI from shadcn/ui",
+  "framework": "react",
+  "library": "shadcn/ui",
+  "code": "import * as React from \"react\"\nimport * as SelectPrimitive from \"@radix-ui/react-select\"\nimport { Check, ChevronDown, ChevronUp } from \"lucide-react\"\n\nimport { cn } from \"@/lib/utils\"\n\nconst Select = SelectPrimitive.Root\n\nconst SelectGroup = SelectPrimitive.Group\n\nconst SelectValue = SelectPrimitive.Value\n\nconst SelectTrigger = React.forwardRef<\n  React.ElementRef<typeof SelectPrimitive.Trigger>,\n  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>\n>(({ className, children, ...props }, ref) => (\n  <SelectPrimitive.Trigger\n    ref={ref}\n    className={cn(\n      \"flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1\",\n      className\n    )}\n    {...props}\n  >\n    {children}\n    <SelectPrimitive.Icon asChild>\n      <ChevronDown className=\"h-4 w-4 opacity-50\" />\n    </SelectPrimitive.Icon>\n  </SelectPrimitive.Trigger>\n))\nSelectTrigger.displayName = SelectPrimitive.Trigger.displayName\n\nconst SelectScrollUpButton = React.forwardRef<\n  React.ElementRef<typeof SelectPrimitive.ScrollUpButton>,\n  React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollUpButton>\n>(({ className, ...props }, ref) => (\n  <SelectPrimitive.ScrollUpButton\n    ref={ref}\n    className={cn(\n      \"flex cursor-default items-center justify-center py-1\",\n      className\n    )}\n    {...props}\n  >\n    <ChevronUp className=\"h-4 w-4\" />\n  </SelectPrimitive.ScrollUpButton>\n))\nSelectScrollUpButton.displayName = SelectPrimitive.ScrollUpButton.displayName\n\nconst SelectScrollDownButton = React.forwardRef<\n  React.ElementRef<typeof SelectPrimitive.ScrollDownButton>,\n  React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollDownButton>\n>(({ className, ...props }, ref) => (\n  <SelectPrimitive.ScrollDownButton\n    ref={ref}\n    className={cn(\n      \"flex cursor-default items-center justify-center py-1\",\n      className\n    )}\n    {...props}\n  >\n    <ChevronDown className=\"h-4 w-4\" />\n  </SelectPrimitive.ScrollDownButton>\n))\nSelectScrollDownButton.displayName =\n  SelectPrimitive.ScrollDownButton.displayName\n\nconst SelectContent = React.forwardRef<\n  React.ElementRef<typeof SelectPrimitive.Content>,\n  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>\n>(({ className, children, position = \"popper\", ...props }, ref) => (\n  <SelectPrimitive.Portal>\n    <SelectPrimitive.Content\n      ref={ref}\n      className={cn(\n        \"relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2\",\n        position === \"popper\" &&\n          \"data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1\",\n        className\n      )}\n      position={position}\n      {...props}\n    >\n      <SelectScrollUpButton />\n      <SelectPrimitive.Viewport\n        className={cn(\n          \"p-1\",\n          position === \"popper\" &&\n            \"h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]\"\n        )}\n      >\n        {children}\n      </SelectPrimitive.Viewport>\n      <SelectScrollDownButton />\n    </SelectPrimitive.Content>\n  </SelectPrimitive.Portal>\n))\nSelectContent.displayName = SelectPrimitive.Content.displayName\n\nconst SelectLabel = React.forwardRef<\n  React.ElementRef<typeof SelectPrimitive.Label>,\n  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Label>\n>(({ className, ...props }, ref) => (\n  <SelectPrimitive.Label\n    ref={ref}\n    className={cn(\"py-1.5 pl-8 pr-2 text-sm font-semibold\", className)}\n    {...props}\n  />\n))\nSelectLabel.displayName = SelectPrimitive.Label.displayName\n\nconst SelectItem = React.forwardRef<\n  React.ElementRef<typeof SelectPrimitive.Item>,\n  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>\n>(({ className, children, ...props }, ref) => (\n  <SelectPrimitive.Item\n    ref={ref}\n    className={cn(\n      \"relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50\",\n      className\n    )}\n    {...props}\n  >\n    <span className=\"absolute left-2 flex h-3.5 w-3.5 items-center justify-center\">\n      <SelectPrimitive.ItemIndicator>\n        <Check className=\"h-4 w-4\" />\n      </SelectPrimitive.ItemIndicator>\n    </span>\n\n    <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>\n  </SelectPrimitive.Item>\n))\nSelectItem.displayName = SelectPrimitive.Item.displayName\n\nconst SelectSeparator = React.forwardRef<\n  React.ElementRef<typeof SelectPrimitive.Separator>,\n  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>\n>(({ className, ...props }, ref) => (\n  <SelectPrimitive.Separator\n    ref={ref}\n    className={cn(\"-mx-1 my-1 h-px bg-muted\", className)}\n    {...props}\n  />\n))\nSelectSeparator.displayName = SelectPrimitive.Separator.displayName\n\nexport {\n  Select,\n  SelectGroup,\n  SelectValue,\n  SelectTrigger,\n  SelectContent,\n  SelectLabel,\n  SelectItem,\n  SelectSeparator,\n  SelectScrollUpButton,\n  SelectScrollDownButton,\n}",
+  "metadata": {
+    "components": [
+      {
+        "name": "Select",
+        "description": "Root component that manages select state"
+      },
+      {
+        "name": "SelectTrigger",
+        "description": "Button that opens the dropdown"
+      },
+      {
+        "name": "SelectValue",
+        "description": "Displays the selected value"
+      },
+      {
+        "name": "SelectContent",
+        "description": "Dropdown container with animation"
+      },
+      {
+        "name": "SelectItem",
+        "description": "Individual option in the dropdown"
+      },
+      {
+        "name": "SelectGroup",
+        "description": "Groups related options together"
+      },
+      {
+        "name": "SelectLabel",
+        "description": "Label for a group of options"
+      },
+      {
+        "name": "SelectSeparator",
+        "description": "Visual separator between options"
+      }
+    ],
+    "props": [
+      {
+        "name": "value",
+        "type": "string",
+        "optional": true,
+        "description": "Controlled selected value"
+      },
+      {
+        "name": "defaultValue",
+        "type": "string",
+        "optional": true,
+        "description": "Uncontrolled default value"
+      },
+      {
+        "name": "onValueChange",
+        "type": "function",
+        "optional": true,
+        "description": "Callback when selection changes"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "optional": true,
+        "description": "Disable the select"
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "optional": true,
+        "description": "Form field name"
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "optional": true,
+        "description": "Mark as required field"
+      }
+    ],
+    "styling": {
+      "trigger": {
+        "height": "40px (h-10)",
+        "width": "100% (w-full)",
+        "padding": "12px horizontal, 8px vertical",
+        "borderRadius": "0.375rem (6px)",
+        "border": "1px solid input border"
+      },
+      "content": {
+        "maxHeight": "384px (max-h-96)",
+        "borderRadius": "0.375rem (6px)",
+        "border": "1px solid border",
+        "shadow": "md",
+        "background": "popover background",
+        "animation": "fade and zoom on open/close"
+      },
+      "item": {
+        "padding": "6px left (pl-8 for icon), 8px right",
+        "borderRadius": "0.125rem (2px)",
+        "fontSize": "0.875rem (14px)",
+        "states": {
+          "focus": "accent background and text",
+          "selected": "check icon visible",
+          "disabled": "50% opacity, no interaction"
+        }
+      }
+    },
+    "a11y": {
+      "features": [
+        "Full keyboard navigation (Arrow keys, Enter, Escape)",
+        "Screen reader announcements for selection",
+        "Focus management and trapping",
+        "ARIA attributes (aria-expanded, aria-selected)",
+        "Type-ahead search functionality",
+        "Disabled state properly communicated",
+        "Required field validation support"
+      ],
+      "recommendations": [
+        "Use with <label> for form accessibility",
+        "Provide clear option text",
+        "Use SelectLabel for grouped options",
+        "Consider search for long lists (10+ items)",
+        "Ensure sufficient color contrast"
+      ]
+    },
+    "dependencies": [
+      "@radix-ui/react-select",
+      "lucide-react",
+      "clsx",
+      "tailwind-merge"
+    ],
+    "usage_examples": [
+      {
+        "title": "Basic Select",
+        "code": "<Select>\n  <SelectTrigger className=\"w-[180px]\">\n    <SelectValue placeholder=\"Select a fruit\" />\n  </SelectTrigger>\n  <SelectContent>\n    <SelectItem value=\"apple\">Apple</SelectItem>\n    <SelectItem value=\"banana\">Banana</SelectItem>\n    <SelectItem value=\"orange\">Orange</SelectItem>\n  </SelectContent>\n</Select>"
+      },
+      {
+        "title": "Grouped Select",
+        "code": "<Select>\n  <SelectTrigger>\n    <SelectValue placeholder=\"Select a timezone\" />\n  </SelectTrigger>\n  <SelectContent>\n    <SelectGroup>\n      <SelectLabel>North America</SelectLabel>\n      <SelectItem value=\"est\">Eastern Standard Time</SelectItem>\n      <SelectItem value=\"cst\">Central Standard Time</SelectItem>\n      <SelectItem value=\"pst\">Pacific Standard Time</SelectItem>\n    </SelectGroup>\n    <SelectSeparator />\n    <SelectGroup>\n      <SelectLabel>Europe</SelectLabel>\n      <SelectItem value=\"gmt\">Greenwich Mean Time</SelectItem>\n      <SelectItem value=\"cet\">Central European Time</SelectItem>\n    </SelectGroup>\n  </SelectContent>\n</Select>"
+      },
+      {
+        "title": "Controlled Select",
+        "code": "const [value, setValue] = React.useState(\"\")\n\n<Select value={value} onValueChange={setValue}>\n  <SelectTrigger>\n    <SelectValue placeholder=\"Select an option\" />\n  </SelectTrigger>\n  <SelectContent>\n    <SelectItem value=\"option1\">Option 1</SelectItem>\n    <SelectItem value=\"option2\">Option 2</SelectItem>\n  </SelectContent>\n</Select>"
+      },
+      {
+        "title": "Form Select with Label",
+        "code": "<div className=\"grid w-full max-w-sm items-center gap-1.5\">\n  <label htmlFor=\"country\">Country</label>\n  <Select name=\"country\" required>\n    <SelectTrigger id=\"country\">\n      <SelectValue placeholder=\"Select your country\" />\n    </SelectTrigger>\n    <SelectContent>\n      <SelectItem value=\"us\">United States</SelectItem>\n      <SelectItem value=\"ca\">Canada</SelectItem>\n      <SelectItem value=\"uk\">United Kingdom</SelectItem>\n    </SelectContent>\n  </Select>\n</div>"
+      }
+    ]
+  }
+}

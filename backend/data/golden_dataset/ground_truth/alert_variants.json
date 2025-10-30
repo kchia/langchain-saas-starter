@@ -1,0 +1,55 @@
+{
+  "screenshot_id": "alert_variants",
+  "component_name": "Alert Component Variants",
+  "variants": [
+    "info",
+    "success",
+    "warning",
+    "error"
+  ],
+  "expected_tokens": {
+    "colors": {
+      "info_bg": "#EFF6FF",
+      "info_border": "#3B82F6",
+      "info_title": "#1E40AF",
+      "info_text": "#1E3A8A",
+      "success_bg": "#F0FDF4",
+      "success_border": "#22C55E",
+      "success_title": "#166534",
+      "success_text": "#14532D",
+      "warning_bg": "#FFFBEB",
+      "warning_border": "#F59E0B",
+      "warning_title": "#92400E",
+      "warning_text": "#78350F",
+      "error_bg": "#FEF2F2",
+      "error_border": "#EF4444",
+      "error_title": "#991B1B",
+      "error_text": "#7F1D1D"
+    },
+    "spacing": {
+      "padding": "16px",
+      "gap": "4px"
+    },
+    "typography": {
+      "title_size": "14px",
+      "title_weight": "600",
+      "message_size": "14px"
+    },
+    "border": {
+      "radius": "8px",
+      "left_width": "4px"
+    },
+    "dimensions": {
+      "width": "500px"
+    }
+  },
+  "expected_pattern_id": "alert",
+  "expected_code_properties": {
+    "has_variant_prop": true,
+    "has_title": true,
+    "has_message": true,
+    "has_accessibility": true,
+    "compiles": true
+  },
+  "notes": "Multi-variant showcase: Info, Success, Warning, and Error alert types with distinct color schemes and left border accents"
+}

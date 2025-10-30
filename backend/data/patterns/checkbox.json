@@ -1,0 +1,168 @@
+{
+  "id": "shadcn-checkbox",
+  "name": "Checkbox",
+  "category": "form",
+  "description": "An accessible checkbox component with indeterminate state support built on Radix UI from shadcn/ui",
+  "framework": "react",
+  "library": "shadcn/ui",
+  "code": "import * as React from \"react\"\nimport * as CheckboxPrimitive from \"@radix-ui/react-checkbox\"\nimport { Check } from \"lucide-react\"\n\nimport { cn } from \"@/lib/utils\"\n\nconst Checkbox = React.forwardRef<\n  React.ElementRef<typeof CheckboxPrimitive.Root>,\n  React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>\n>(({ className, ...props }, ref) => (\n  <CheckboxPrimitive.Root\n    ref={ref}\n    className={cn(\n      \"peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground\",\n      className\n    )}\n    {...props}\n  >\n    <CheckboxPrimitive.Indicator\n      className={cn(\"flex items-center justify-center text-current\")}\n    >\n      <Check className=\"h-4 w-4\" />\n    </CheckboxPrimitive.Indicator>\n  </CheckboxPrimitive.Root>\n))\nCheckbox.displayName = CheckboxPrimitive.Root.displayName\n\nexport { Checkbox }",
+  "metadata": {
+    "states": [
+      {
+        "name": "checked",
+        "description": "Checkbox is selected (checkmark visible)"
+      },
+      {
+        "name": "unchecked",
+        "description": "Checkbox is not selected"
+      },
+      {
+        "name": "indeterminate",
+        "description": "Checkbox is in partial state (minus icon)"
+      }
+    ],
+    "props": [
+      {
+        "name": "checked",
+        "type": "boolean | 'indeterminate'",
+        "optional": true,
+        "description": "Controlled checked state"
+      },
+      {
+        "name": "defaultChecked",
+        "type": "boolean",
+        "optional": true,
+        "description": "Uncontrolled default checked state"
+      },
+      {
+        "name": "onCheckedChange",
+        "type": "function",
+        "optional": true,
+        "description": "Callback when checked state changes"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "optional": true,
+        "description": "Disable checkbox interaction"
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "optional": true,
+        "description": "Mark as required field"
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "optional": true,
+        "description": "Form field name"
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "optional": true,
+        "description": "Form field value"
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "optional": true,
+        "description": "Additional CSS classes"
+      }
+    ],
+    "styling": {
+      "size": "16px × 16px (h-4 w-4)",
+      "borderRadius": "0.125rem (2px, rounded-sm)",
+      "border": "1px solid primary color",
+      "background": {
+        "unchecked": "transparent",
+        "checked": "primary color",
+        "indeterminate": "primary color"
+      },
+      "icon": {
+        "size": "16px × 16px (h-4 w-4)",
+        "color": "primary-foreground (white/contrast)"
+      },
+      "states": {
+        "focus": "2px ring with offset",
+        "disabled": "50% opacity, not-allowed cursor",
+        "hover": "inherited from parent"
+      }
+    },
+    "common_use_cases": [
+      {
+        "name": "Single Checkbox",
+        "example": "Accept terms and conditions"
+      },
+      {
+        "name": "Checkbox Group",
+        "example": "Select multiple options from a list"
+      },
+      {
+        "name": "Select All Pattern",
+        "example": "Parent checkbox with indeterminate state"
+      },
+      {
+        "name": "Form Field",
+        "example": "Subscribe to newsletter"
+      },
+      {
+        "name": "Table Row Selection",
+        "example": "Select rows for bulk actions"
+      }
+    ],
+    "a11y": {
+      "features": [
+        "Full keyboard support (Space to toggle)",
+        "Native checkbox semantics via Radix UI",
+        "ARIA attributes (aria-checked, aria-disabled)",
+        "Focus visible ring indicator",
+        "Screen reader announcements",
+        "Supports indeterminate state",
+        "Proper disabled state handling"
+      ],
+      "recommendations": [
+        "Always pair with <label> for click target",
+        "Use htmlFor to associate label with checkbox",
+        "Provide clear, descriptive label text",
+        "Group related checkboxes with fieldset/legend",
+        "Use aria-describedby for additional context",
+        "Consider checkbox size for touch targets (min 44×44px)",
+        "Ensure sufficient color contrast"
+      ]
+    },
+    "dependencies": [
+      "@radix-ui/react-checkbox",
+      "lucide-react",
+      "clsx",
+      "tailwind-merge"
+    ],
+    "usage_examples": [
+      {
+        "title": "Basic Checkbox with Label",
+        "code": "<div className=\"flex items-center space-x-2\">\n  <Checkbox id=\"terms\" />\n  <label\n    htmlFor=\"terms\"\n    className=\"text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70\"\n  >\n    Accept terms and conditions\n  </label>\n</div>"
+      },
+      {
+        "title": "Controlled Checkbox",
+        "code": "const [checked, setChecked] = React.useState(false)\n\n<div className=\"flex items-center space-x-2\">\n  <Checkbox\n    id=\"marketing\"\n    checked={checked}\n    onCheckedChange={setChecked}\n  />\n  <label htmlFor=\"marketing\">Send me marketing emails</label>\n</div>"
+      },
+      {
+        "title": "Checkbox Group",
+        "code": "<div className=\"space-y-2\">\n  <div className=\"flex items-center space-x-2\">\n    <Checkbox id=\"react\" />\n    <label htmlFor=\"react\">React</label>\n  </div>\n  <div className=\"flex items-center space-x-2\">\n    <Checkbox id=\"vue\" />\n    <label htmlFor=\"vue\">Vue</label>\n  </div>\n  <div className=\"flex items-center space-x-2\">\n    <Checkbox id=\"angular\" />\n    <label htmlFor=\"angular\">Angular</label>\n  </div>\n</div>"
+      },
+      {
+        "title": "Disabled Checkbox",
+        "code": "<div className=\"flex items-center space-x-2\">\n  <Checkbox id=\"disabled\" disabled />\n  <label htmlFor=\"disabled\">Disabled option</label>\n</div>"
+      },
+      {
+        "title": "Indeterminate Checkbox (Select All)",
+        "code": "const [checkedItems, setCheckedItems] = React.useState([false, false, false])\nconst allChecked = checkedItems.every(Boolean)\nconst isIndeterminate = checkedItems.some(Boolean) && !allChecked\n\n<div>\n  <div className=\"flex items-center space-x-2\">\n    <Checkbox\n      checked={allChecked}\n      indeterminate={isIndeterminate}\n      onCheckedChange={(checked) =>\n        setCheckedItems([checked, checked, checked])\n      }\n    />\n    <label>Select all</label>\n  </div>\n  <div className=\"ml-6 space-y-2\">\n    {checkedItems.map((checked, index) => (\n      <div key={index} className=\"flex items-center space-x-2\">\n        <Checkbox\n          checked={checked}\n          onCheckedChange={(isChecked) => {\n            const newItems = [...checkedItems]\n            newItems[index] = isChecked\n            setCheckedItems(newItems)\n          }}\n        />\n        <label>Item {index + 1}</label>\n      </div>\n    ))}\n  </div>\n</div>"
+      },
+      {
+        "title": "Form Checkbox with Validation",
+        "code": "<form>\n  <div className=\"flex items-center space-x-2\">\n    <Checkbox\n      id=\"terms\"\n      required\n      aria-invalid={errors.terms ? 'true' : 'false'}\n      aria-describedby=\"terms-error\"\n    />\n    <label htmlFor=\"terms\">I agree to the terms</label>\n  </div>\n  {errors.terms && (\n    <p id=\"terms-error\" className=\"text-sm text-destructive mt-1\">\n      You must accept the terms and conditions\n    </p>\n  )}\n</form>"
+      }
+    ]
+  }
+}

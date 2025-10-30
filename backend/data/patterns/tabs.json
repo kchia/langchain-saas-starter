@@ -1,0 +1,203 @@
+{
+  "id": "shadcn-tabs",
+  "name": "Tabs",
+  "category": "navigation",
+  "description": "A set of layered sections of content (tab panels) that display one at a time, built on Radix UI from shadcn/ui",
+  "framework": "react",
+  "library": "shadcn/ui",
+  "code": "import * as React from \"react\"\nimport * as TabsPrimitive from \"@radix-ui/react-tabs\"\n\nimport { cn } from \"@/lib/utils\"\n\nconst Tabs = TabsPrimitive.Root\n\nconst TabsList = React.forwardRef<\n  React.ElementRef<typeof TabsPrimitive.List>,\n  React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>\n>(({ className, ...props }, ref) => (\n  <TabsPrimitive.List\n    ref={ref}\n    className={cn(\n      \"inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground\",\n      className\n    )}\n    {...props}\n  />\n))\nTabsList.displayName = TabsPrimitive.List.displayName\n\nconst TabsTrigger = React.forwardRef<\n  React.ElementRef<typeof TabsPrimitive.Trigger>,\n  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>\n>(({ className, ...props }, ref) => (\n  <TabsPrimitive.Trigger\n    ref={ref}\n    className={cn(\n      \"inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm\",\n      className\n    )}\n    {...props}\n  />\n))\nTabsTrigger.displayName = TabsPrimitive.Trigger.displayName\n\nconst TabsContent = React.forwardRef<\n  React.ElementRef<typeof TabsPrimitive.Content>,\n  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>\n>(({ className, ...props }, ref) => (\n  <TabsPrimitive.Content\n    ref={ref}\n    className={cn(\n      \"mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2\",\n      className\n    )}\n    {...props}\n  />\n))\nTabsContent.displayName = TabsPrimitive.Content.displayName\n\nexport { Tabs, TabsList, TabsTrigger, TabsContent }",
+  "metadata": {
+    "components": [
+      {
+        "name": "Tabs",
+        "description": "Root component that manages tab state"
+      },
+      {
+        "name": "TabsList",
+        "description": "Container for tab triggers with muted background"
+      },
+      {
+        "name": "TabsTrigger",
+        "description": "Individual tab button that switches content"
+      },
+      {
+        "name": "TabsContent",
+        "description": "Content panel for each tab"
+      }
+    ],
+    "props": [
+      {
+        "name": "value",
+        "type": "string",
+        "optional": true,
+        "scope": "Tabs",
+        "description": "Controlled active tab value"
+      },
+      {
+        "name": "defaultValue",
+        "type": "string",
+        "optional": true,
+        "scope": "Tabs",
+        "description": "Uncontrolled default active tab"
+      },
+      {
+        "name": "onValueChange",
+        "type": "function",
+        "optional": true,
+        "scope": "Tabs",
+        "description": "Callback when active tab changes"
+      },
+      {
+        "name": "orientation",
+        "type": "'horizontal' | 'vertical'",
+        "optional": true,
+        "default": "horizontal",
+        "scope": "Tabs",
+        "description": "Tab list orientation"
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "optional": false,
+        "scope": "TabsTrigger | TabsContent",
+        "description": "Unique value identifying the tab"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "optional": true,
+        "scope": "TabsTrigger",
+        "description": "Disable tab interaction"
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "optional": true,
+        "scope": "All components",
+        "description": "Additional CSS classes"
+      }
+    ],
+    "styling": {
+      "list": {
+        "display": "inline-flex",
+        "height": "40px (h-10)",
+        "background": "muted (light gray)",
+        "borderRadius": "0.375rem (6px)",
+        "padding": "4px (p-1)",
+        "gap": "implicit from flex"
+      },
+      "trigger": {
+        "padding": "12px horizontal (px-3), 6px vertical (py-1.5)",
+        "fontSize": "0.875rem (14px)",
+        "fontWeight": "500 (medium)",
+        "borderRadius": "0.125rem (2px)",
+        "states": {
+          "default": "muted-foreground color",
+          "active": "background color, foreground text, small shadow",
+          "hover": "smooth transition",
+          "focus": "2px ring with offset",
+          "disabled": "50% opacity, no interaction"
+        }
+      },
+      "content": {
+        "marginTop": "8px (mt-2)",
+        "states": {
+          "focus": "2px ring with offset"
+        }
+      }
+    },
+    "common_use_cases": [
+      {
+        "name": "Content Organization",
+        "examples": ["Overview, Analytics, Reports tabs"]
+      },
+      {
+        "name": "Settings Panels",
+        "examples": ["Profile, Account, Notifications, Security"]
+      },
+      {
+        "name": "Data Views",
+        "examples": ["Table, Chart, Export tabs"]
+      },
+      {
+        "name": "Code Examples",
+        "examples": ["Preview, Code, Props tabs"]
+      },
+      {
+        "name": "Multi-step Forms",
+        "examples": ["Personal Info, Address, Payment"]
+      }
+    ],
+    "design_patterns": [
+      {
+        "pattern": "Horizontal Navigation",
+        "description": "Default tabs aligned horizontally for main content sections"
+      },
+      {
+        "pattern": "Vertical Navigation",
+        "description": "Vertical tabs for settings or sidebar navigation"
+      },
+      {
+        "pattern": "Controlled Tabs",
+        "description": "Parent component manages active tab for complex flows"
+      },
+      {
+        "pattern": "Lazy Loading",
+        "description": "Load tab content only when activated"
+      }
+    ],
+    "a11y": {
+      "features": [
+        "Full keyboard navigation (Arrow keys, Home, End, Tab)",
+        "ARIA tablist, tab, and tabpanel roles",
+        "ARIA attributes (aria-selected, aria-controls)",
+        "Automatic roving tabindex",
+        "Focus visible ring indicator",
+        "Screen reader announcements",
+        "Disabled state properly communicated",
+        "Automatic focus management"
+      ],
+      "recommendations": [
+        "Provide clear, concise tab labels",
+        "Use icons with text for better understanding",
+        "Ensure tab order matches visual order",
+        "Don't nest interactive elements in TabsTrigger",
+        "Consider indicating content loading states",
+        "Keep tab count reasonable (3-7 tabs ideal)",
+        "Use descriptive value props for better debugging",
+        "Ensure sufficient color contrast for active state"
+      ]
+    },
+    "dependencies": [
+      "@radix-ui/react-tabs",
+      "clsx",
+      "tailwind-merge"
+    ],
+    "usage_examples": [
+      {
+        "title": "Basic Tabs",
+        "code": "<Tabs defaultValue=\"account\" className=\"w-[400px]\">\n  <TabsList>\n    <TabsTrigger value=\"account\">Account</TabsTrigger>\n    <TabsTrigger value=\"password\">Password</TabsTrigger>\n  </TabsList>\n  <TabsContent value=\"account\">\n    <p>Make changes to your account here.</p>\n  </TabsContent>\n  <TabsContent value=\"password\">\n    <p>Change your password here.</p>\n  </TabsContent>\n</Tabs>"
+      },
+      {
+        "title": "Controlled Tabs",
+        "code": "const [activeTab, setActiveTab] = React.useState(\"overview\")\n\n<Tabs value={activeTab} onValueChange={setActiveTab}>\n  <TabsList>\n    <TabsTrigger value=\"overview\">Overview</TabsTrigger>\n    <TabsTrigger value=\"analytics\">Analytics</TabsTrigger>\n    <TabsTrigger value=\"reports\">Reports</TabsTrigger>\n  </TabsList>\n  <TabsContent value=\"overview\">\n    Overview content\n  </TabsContent>\n  <TabsContent value=\"analytics\">\n    Analytics content\n  </TabsContent>\n  <TabsContent value=\"reports\">\n    Reports content\n  </TabsContent>\n</Tabs>"
+      },
+      {
+        "title": "Tabs with Cards",
+        "code": "<Tabs defaultValue=\"preview\">\n  <TabsList className=\"grid w-full grid-cols-2\">\n    <TabsTrigger value=\"preview\">Preview</TabsTrigger>\n    <TabsTrigger value=\"code\">Code</TabsTrigger>\n  </TabsList>\n  <TabsContent value=\"preview\">\n    <Card>\n      <CardHeader>\n        <CardTitle>Preview</CardTitle>\n        <CardDescription>\n          See how your component looks\n        </CardDescription>\n      </CardHeader>\n      <CardContent className=\"space-y-2\">\n        <Button>Example Button</Button>\n      </CardContent>\n    </Card>\n  </TabsContent>\n  <TabsContent value=\"code\">\n    <Card>\n      <CardHeader>\n        <CardTitle>Code</CardTitle>\n        <CardDescription>\n          Copy and paste the code below\n        </CardDescription>\n      </CardHeader>\n      <CardContent>\n        <pre><code>{`<Button>Example</Button>`}</code></pre>\n      </CardContent>\n    </Card>\n  </TabsContent>\n</Tabs>"
+      },
+      {
+        "title": "Tabs with Icons",
+        "code": "<Tabs defaultValue=\"home\">\n  <TabsList>\n    <TabsTrigger value=\"home\" className=\"gap-2\">\n      <Home className=\"h-4 w-4\" />\n      Home\n    </TabsTrigger>\n    <TabsTrigger value=\"settings\" className=\"gap-2\">\n      <Settings className=\"h-4 w-4\" />\n      Settings\n    </TabsTrigger>\n    <TabsTrigger value=\"profile\" className=\"gap-2\">\n      <User className=\"h-4 w-4\" />\n      Profile\n    </TabsTrigger>\n  </TabsList>\n  <TabsContent value=\"home\">Home content</TabsContent>\n  <TabsContent value=\"settings\">Settings content</TabsContent>\n  <TabsContent value=\"profile\">Profile content</TabsContent>\n</Tabs>"
+      },
+      {
+        "title": "Full Width Tabs",
+        "code": "<Tabs defaultValue=\"tab1\">\n  <TabsList className=\"grid w-full grid-cols-3\">\n    <TabsTrigger value=\"tab1\">Tab 1</TabsTrigger>\n    <TabsTrigger value=\"tab2\">Tab 2</TabsTrigger>\n    <TabsTrigger value=\"tab3\">Tab 3</TabsTrigger>\n  </TabsList>\n  <TabsContent value=\"tab1\">Content 1</TabsContent>\n  <TabsContent value=\"tab2\">Content 2</TabsContent>\n  <TabsContent value=\"tab3\">Content 3</TabsContent>\n</Tabs>"
+      },
+      {
+        "title": "Tabs with Disabled Option",
+        "code": "<Tabs defaultValue=\"available\">\n  <TabsList>\n    <TabsTrigger value=\"available\">Available</TabsTrigger>\n    <TabsTrigger value=\"coming-soon\" disabled>\n      Coming Soon\n    </TabsTrigger>\n    <TabsTrigger value=\"archived\">Archived</TabsTrigger>\n  </TabsList>\n  <TabsContent value=\"available\">\n    Available items content\n  </TabsContent>\n  <TabsContent value=\"archived\">\n    Archived items content\n  </TabsContent>\n</Tabs>"
+      }
+    ]
+  }
+}

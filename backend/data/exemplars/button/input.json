@@ -1,0 +1,70 @@
+{
+  "component_name": "Button",
+  "component_type": "button",
+  "tokens": {
+    "colors": {
+      "primary": "#3B82F6",
+      "secondary": "#64748B",
+      "success": "#10B981",
+      "danger": "#EF4444"
+    },
+    "typography": {
+      "fontSize": "14px",
+      "fontWeight": "500"
+    },
+    "spacing": {
+      "padding": "8px 16px"
+    },
+    "borders": {
+      "radius": "6px"
+    }
+  },
+  "requirements": {
+    "props": [
+      {
+        "name": "variant",
+        "type": "'primary' | 'secondary' | 'success' | 'danger'",
+        "description": "Visual style variant"
+      },
+      {
+        "name": "size",
+        "type": "'sm' | 'md' | 'lg'",
+        "description": "Button size"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "description": "Whether button is disabled"
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "description": "Button content"
+      }
+    ],
+    "events": [
+      {
+        "name": "onClick",
+        "type": "(event: React.MouseEvent<HTMLButtonElement>) => void",
+        "description": "Click handler"
+      }
+    ],
+    "states": [
+      {
+        "name": "isPressed",
+        "type": "boolean",
+        "description": "Visual pressed state"
+      }
+    ],
+    "accessibility": [
+      {
+        "name": "aria-label",
+        "description": "Accessible label when children is not descriptive"
+      },
+      {
+        "name": "aria-disabled",
+        "description": "Indicates disabled state"
+      }
+    ]
+  }
+}

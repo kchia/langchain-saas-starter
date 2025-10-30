@@ -1,0 +1,123 @@
+{
+  "storybookUrl": "http://localhost:6006",
+  "outputDir": "../data/golden_dataset/screenshots",
+  "components": [
+    {
+      "id": "button_primary",
+      "name": "Button - Primary",
+      "storybookPath": "/?path=/story/ui-button--primary",
+      "outputFile": "button_primary.png",
+      "viewport": { "width": 800, "height": 400 },
+      "selector": "button",
+      "waitFor": 500
+    },
+    {
+      "id": "button_secondary",
+      "name": "Button - Secondary",
+      "storybookPath": "/?path=/story/ui-button--secondary",
+      "outputFile": "button_secondary.png",
+      "viewport": { "width": 800, "height": 400 },
+      "selector": "button",
+      "waitFor": 500
+    },
+    {
+      "id": "button_outline",
+      "name": "Button - Outline",
+      "storybookPath": "/?path=/story/ui-button--outline",
+      "outputFile": "button_outline.png",
+      "viewport": { "width": 800, "height": 400 },
+      "selector": "button",
+      "waitFor": 500
+    },
+    {
+      "id": "card_default",
+      "name": "Card - Default",
+      "storybookPath": "/?path=/story/ui-card--default",
+      "outputFile": "card_default.png",
+      "viewport": { "width": 800, "height": 600 },
+      "selector": ".card, [class*='card']",
+      "waitFor": 500
+    },
+    {
+      "id": "badge_success",
+      "name": "Badge - Success",
+      "storybookPath": "/?path=/story/ui-badge--success",
+      "outputFile": "badge_success.png",
+      "viewport": { "width": 600, "height": 300 },
+      "selector": ".badge, [class*='badge']",
+      "waitFor": 500
+    },
+    {
+      "id": "badge_error",
+      "name": "Badge - Error",
+      "storybookPath": "/?path=/story/ui-badge--destructive",
+      "outputFile": "badge_error.png",
+      "viewport": { "width": 600, "height": 300 },
+      "selector": ".badge, [class*='badge']",
+      "waitFor": 500
+    },
+    {
+      "id": "input_text",
+      "name": "Input - Text",
+      "storybookPath": "/?path=/story/ui-input--default",
+      "outputFile": "input_text.png",
+      "viewport": { "width": 800, "height": 400 },
+      "selector": "input",
+      "waitFor": 500
+    },
+    {
+      "id": "input_email",
+      "name": "Input - Email",
+      "storybookPath": "/?path=/story/ui-input--email",
+      "outputFile": "input_email.png",
+      "viewport": { "width": 800, "height": 400 },
+      "selector": "input",
+      "waitFor": 500
+    },
+    {
+      "id": "alert_info",
+      "name": "Alert - Info",
+      "storybookPath": "/?path=/story/ui-alert--default",
+      "outputFile": "alert_info.png",
+      "viewport": { "width": 900, "height": 400 },
+      "selector": "[role='alert'], .alert",
+      "waitFor": 500
+    },
+    {
+      "id": "alert_warning",
+      "name": "Alert - Warning",
+      "storybookPath": "/?path=/story/ui-alert--warning",
+      "outputFile": "alert_warning.png",
+      "viewport": { "width": 900, "height": 400 },
+      "selector": "[role='alert'], .alert",
+      "waitFor": 500
+    },
+    {
+      "id": "select_default",
+      "name": "Select - Default",
+      "storybookPath": "/?path=/story/ui-select--default",
+      "outputFile": "select_default.png",
+      "viewport": { "width": 800, "height": 400 },
+      "selector": "select, button[role='combobox']",
+      "waitFor": 500
+    },
+    {
+      "id": "checkbox_default",
+      "name": "Checkbox - Default",
+      "storybookPath": "/?path=/story/ui-checkbox--default",
+      "outputFile": "checkbox_default.png",
+      "viewport": { "width": 600, "height": 300 },
+      "selector": "input[type='checkbox'], button[role='checkbox']",
+      "waitFor": 500
+    },
+    {
+      "id": "card_with_footer",
+      "name": "Card - With Footer",
+      "storybookPath": "/?path=/story/ui-card--with-footer",
+      "outputFile": "card_with_footer.png",
+      "viewport": { "width": 800, "height": 600 },
+      "selector": ".card, [class*='card']",
+      "waitFor": 500
+    }
+  ]
+}
